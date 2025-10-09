@@ -1,0 +1,91 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<MainLayout title="Home">
+	<!-- Hero Section -->
+	<section class="hero">
+		<div class="container">
+			<h1>Professional Exterior Home Improvements</h1>
+			<p>Over 15 years of experience delivering quality eavestrough, siding, and exterior renovation services</p>
+			<a href={`${baseUrl}/contact/`} class="btn">Get a Free Quote</a>
+		</div>
+	</section>
+
+	<!-- Services Section -->
+	<section>
+		<div class="container">
+			<h2>Our Services</h2>
+			<p class="section-description">
+				We provide professional services for both private and commercial clients, 
+				specializing in eavestrough and siding installations.
+			</p>
+			<div class="grid grid-3">
+				<div class="card">
+					<h3>Eavestrough & Downspouts</h3>
+					<p>Protect your home from water damage with quality eavestrough and downspout installations and repairs.</p>
+					<a href={`${baseUrl}/services/#eavestrough`} class="btn mt-2">Learn More</a>
+				</div>
+				<div class="card">
+					<h3>Siding & Capping</h3>
+					<p>Upgrade your home's exterior with durable and stylish siding or capping solutions.</p>
+					<a href={`${baseUrl}/services/#siding`} class="btn mt-2">Learn More</a>
+				</div>
+				<div class="card">
+					<h3>Gutter Protection</h3>
+					<p>Keep your gutters clear with effective leaf guards and gutter screen installations.</p>
+					<a href={`${baseUrl}/services/#gutter-protection`} class="btn mt-2">Learn More</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Why Choose Us Section -->
+	<section style="background-color: var(--light-bg);">
+		<div class="container">
+			<h2>Why Choose Gemini Home Improvements?</h2>
+			<div class="grid grid-2">
+				<div class="card">
+					<h3><span class="icon">&#xE735;</span> 15+ Years Experience</h3>
+					<p>I have been delivering quality exterior renovations for over 15 years with hands-on expertise.</p>
+				</div>
+				<div class="card">
+					<h3><span class="icon">&#xE930;</span> Quality Workmanship</h3>
+					<p>I take pride in every project, ensuring the highest standards of craftsmanship with my personal guarantee.</p>
+				</div>
+				<div class="card">
+					<h3><span class="icon">&#xE8A6;</span> Competitive Pricing</h3>
+					<p>Fair, transparent pricing with free estimates for all projects - no hidden fees.</p>
+				</div>
+				<div class="card">
+					<h3><span class="icon">&#xE77B;</span> Customer Satisfaction</h3>
+					<p>Your satisfaction is my priority. I work closely with you throughout the project from start to finish.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- CTA Section -->
+	<section class="text-center">
+		<div class="container">
+			<h2>Ready to Transform Your Home's Exterior?</h2>
+			<p class="section-description">
+				Contact me today for a free consultation and quote. 
+				I'll personally assess your needs and provide a fair, transparent estimate.
+			</p>
+			<a href={`${baseUrl}/contact/`} class="btn btn-primary">Request a Quote</a>
+		</div>
+	</section>
+</MainLayout>
+
+<style>
+	.icon {
+		font-family: 'Segoe Fluent Icons', 'Segoe MDL2 Assets';
+		font-size: 1.2rem;
+		color: var(--primary-color);
+		margin-right: 0.5rem;
+		vertical-align: middle;
+		font-weight: normal;
+	}
+</style>

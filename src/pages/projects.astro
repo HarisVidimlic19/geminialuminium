@@ -1,0 +1,135 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<MainLayout title="Our Projects" description="View our portfolio of completed exterior renovation projects">
+	<section class="hero" style="padding: 3rem 0;">
+		<div class="container">
+			<h1>Our Projects</h1>
+			<p>See the quality of our work</p>
+		</div>
+	</section>
+
+	<section>
+		<div class="container">
+			<h2>Featured Projects</h2>
+			<p class="section-description">
+				Here are some examples of exterior renovation projects we've completed for our customers. 
+				We provide professional services including consultation, free estimates, design, supply of materials, and installation.
+			</p>
+
+			<div class="grid grid-3">
+				<div class="card">
+					<img src={`${baseUrl}/images/carousel/slide2.jpg`} alt="Complete exterior renovation project" class="project-image" loading="lazy" />
+					<h3>Complete Exterior Renovation</h3>
+					<p><strong>Completed:</strong> 2025</p>
+					<p>Full exterior makeover including eavestrough, siding, and fascia replacement with modern materials.</p>
+				</div>
+
+				<div class="card">
+					<img src={`${baseUrl}/images/carousel/slide1.jpg`} alt="Custom European style eavestrough installation" class="project-image" loading="lazy" />
+					<h3>European Style Eavestrough</h3>
+					<p><strong>Completed:</strong> 2025</p>
+					<p>Custom and professional eavestrough installation featuring European style design with seamless integration and premium materials for enhanced curb appeal.</p>
+				</div>
+
+				<div class="card">
+					<img src={`${baseUrl}/images/carousel/slide3.jpg`} alt="Exterior renovation project" class="project-image" loading="lazy" />
+					<h3>Exterior Renovation Project</h3>
+					<p><strong>Completed:</strong> 2024</p>
+					<p>Complete siding and eavestrough system upgrade for improved weather protection.</p>
+				</div>
+
+				<div class="card">
+					<img src={`${baseUrl}/images/projects/gutter-system-2022-1.jpg`} alt="Siding and trim project" class="project-image" loading="lazy" />
+					<h3>Siding & Trim Package</h3>
+					<p><strong>Completed:</strong> 2024</p>
+					<p>Complete siding replacement with custom trim details and professional finishing.</p>
+				</div>
+
+				<div class="card">
+					<img src={`${baseUrl}/images/projects/complete-renovation-2023.jpg`} alt="Complete exterior renovation" class="project-image" loading="lazy" />
+					<h3>Full House Renovation</h3>
+					<p><strong>Completed:</strong> 2023</p>
+					<p>Complete exterior transformation with coordinated siding, eavestrough, and trim work.</p>
+				</div>
+
+				<div class="card">
+					<img src={`${baseUrl}/images/projects/fascia-repair-2022.jpg`} alt="Fascia repair and replacement" class="project-image" loading="lazy" />
+					<h3>Fascia Repair & Replacement</h3>
+					<p><strong>Completed:</strong> 2023</p>
+					<p>Damaged fascia repair with aluminum capping for long-lasting protection.</p>
+				</div>
+			</div>
+			
+			<div class="grid grid-3 mt-3">
+				<div class="card">
+					<img src={`${baseUrl}/images/projects/gutter-protection-system.jpg`} alt="Gutter protection system" class="project-image" loading="lazy" />
+					<h3>Gutter Protection System</h3>
+					<p><strong>Completed:</strong> 2023</p>
+					<p>Premium leaf guard installation to prevent clogs and reduce maintenance.</p>
+				</div>
+
+				<div class="card">
+					<img src={`${baseUrl}/old_images/image05.jpg`} alt="Residential exterior renovation" class="project-image" loading="lazy" />
+					<h3>Residential Renovation</h3>
+					<p><strong>Completed:</strong> 2020</p>
+					<p>Complete exterior refresh with coordinated colors and quality materials.</p>
+				</div>
+
+				<div class="card">
+					<img src={`${baseUrl}/old_images/image07.jpg`} alt="Multi-unit exterior renovation" class="project-image" loading="lazy" />
+					<h3>Multi-Unit Exterior Work</h3>
+					<p><strong>Completed:</strong> 2020</p>
+					<p>Large-scale exterior renovation including siding, eavestroughs, and trim work.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section style="background-color: var(--light-bg);">
+		<div class="container text-center">
+			<h2>Ready to Start Your Project?</h2>
+			<p class="section-description">
+				Let me transform your home's exterior with quality workmanship and materials.
+			</p>
+			<a href={`${baseUrl}/contact/`} class="btn btn-primary">Request a Quote</a>
+		</div>
+	</section>
+</MainLayout>
+
+<style>
+	.project-image {
+		width: 100%;
+		height: 250px;
+		object-fit: cover;
+		border-radius: 8px;
+		margin-bottom: 1rem;
+		display: block;
+	}
+
+	.grid-3 .card {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.grid-3 .card h3 {
+		margin-top: 0;
+		margin-bottom: 0.5rem;
+	}
+
+	.grid-3 .card p {
+		margin: 0.25rem 0;
+	}
+
+	.grid-3 .card p:last-child {
+		flex-grow: 1;
+	}
+
+	@media (max-width: 768px) {
+		.project-image {
+			height: 200px;
+		}
+	}
+</style>

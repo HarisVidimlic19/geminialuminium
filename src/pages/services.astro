@@ -1,0 +1,120 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<MainLayout title="Our Services" description="Professional eavestrough, siding, gutter protection, and exterior repair services">
+	<section class="hero" style="padding: 3rem 0;">
+		<div class="container">
+			<h1>Our Services</h1>
+			<p>Professional exterior renovation services tailored to your needs</p>
+		</div>
+	</section>
+
+	<section id="eavestrough">
+		<div class="container">
+			<h2>Eavestrough & Downspouts</h2>
+			<div class="grid grid-2">
+				<div>
+					<h3>Protect Your Home from Water Damage</h3>
+					<p>Our eavestrough and downspout services include:</p>
+					<ul>
+						<li>New installations</li>
+						<li>Repairs and maintenance</li>
+						<li>Seamless eavestrough options</li>
+						<li>Downspout extensions</li>
+						<li>Color matching to your home</li>
+					</ul>
+					<a href={`${baseUrl}/contact/`} class="btn mt-2">Get a Quote</a>
+				</div>
+				<div class="card">
+					<p>Quality eavestrough systems are essential for protecting your home's foundation, siding, and landscaping from water damage. We use premium materials and expert installation techniques to ensure your system works effectively for years to come.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="siding" style="background-color: var(--light-bg);">
+		<div class="container">
+			<h2>Siding & Capping</h2>
+			<div class="grid grid-2">
+				<div class="card">
+					<p>Transform your home's appearance and protect it from the elements with our professional siding services. We offer a variety of materials and colors to match your style and budget.</p>
+				</div>
+				<div>
+					<h3>Quality Siding Solutions</h3>
+					<p>Our siding services include:</p>
+					<ul>
+						<li>Vinyl siding installation</li>
+						<li>Aluminum siding</li>
+						<li>Fascia and soffit capping</li>
+						<li>Trim and accent work</li>
+						<li>Complete exterior makeovers</li>
+					</ul>
+					<a href={`${baseUrl}/contact/`} class="btn mt-2">Get a Quote</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="gutter-protection">
+		<div class="container">
+			<h2>Gutter Protection Systems</h2>
+			<div class="grid grid-2">
+				<div>
+					<h3>Keep Your Gutters Clear Year-Round</h3>
+					<p>Our gutter protection services include:</p>
+					<ul>
+						<li>Leaf guard installation</li>
+						<li>Gutter screens and covers</li>
+						<li>Mesh systems</li>
+						<li>Custom solutions</li>
+						<li>Prevents clogs and overflow</li>
+					</ul>
+					<a href={`${baseUrl}/contact/`} class="btn mt-2">Get a Quote</a>
+				</div>
+				<div class="card">
+					<p>Stop climbing ladders to clean your gutters! Our gutter protection systems keep debris out while allowing water to flow freely, protecting your home and saving you time and money on maintenance.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section style="background-color: var(--light-bg);">
+		<div class="container">
+			<h2>Additional Services</h2>
+			<div class="grid grid-3">
+				<div class="card">
+					<h3>Exterior Repairs</h3>
+					<p>From minor fixes to major restorations, we handle all types of exterior repairs with precision and care.</p>
+				</div>
+				<div class="card">
+					<h3>Free Estimates</h3>
+					<p>We offer no-obligation quotes and expert advice to help you make informed decisions for your home.</p>
+				</div>
+				<div class="card">
+					<h3>Quality Materials</h3>
+					<p>We use only premium materials from trusted manufacturers, backed by solid warranties.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</MainLayout>
+
+<style>
+	ul {
+		list-style: none;
+		padding-left: 0;
+	}
+	ul li::before {
+		content: "\E930";
+		font-family: 'Segoe Fluent Icons', 'Segoe MDL2 Assets';
+		color: var(--primary-color);
+		font-weight: normal;
+		margin-right: 0.5rem;
+		font-size: 0.9rem;
+	}
+	ul li {
+		margin-bottom: 0.5rem;
+	}
+</style>

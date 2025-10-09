@@ -1,0 +1,333 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="Contact Us" description="Get in touch with Gemini Home Improvements for a free quote">
+	<section class="hero" style="padding: 3rem 0;">
+		<div class="container">
+			<h1>Contact Us</h1>
+			<p>Get your free quote today</p>
+		</div>
+	</section>
+
+	<section>
+		<div class="container">
+			<div class="grid grid-2">
+				<div>
+					<h2>Get Your Free Quote</h2>
+					<p>Fill out the form and I'll get back to you within 24 hours with a free, no-obligation estimate.</p>
+					
+					<form id="contact-form" class="mt-3">
+						<div class="form-group">
+							<label for="name">Full Name *</label>
+							<input type="text" id="name" name="name" required />
+						</div>
+
+						<div class="form-group">
+							<label for="email">Email Address *</label>
+							<input type="email" id="email" name="email" required />
+						</div>
+
+						<div class="form-group">
+							<label for="phone">Phone Number</label>
+							<input 
+								type="tel" 
+								id="phone" 
+								name="phone" 
+								placeholder="(555) 555-5555"
+								maxlength="14"
+							/>
+							<small class="form-hint">Format: (555) 555-5555 (10 digits)</small>
+							<small class="form-error" id="phone-error" style="display: none;">Please enter a valid 10-digit phone number</small>
+						</div>
+
+						<div class="form-group">
+							<label for="service">Service Interested In</label>
+							<select id="service" name="service">
+								<option value="">Select a service...</option>
+								<option value="eavestrough">Eavestrough & Downspouts</option>
+								<option value="siding">Siding & Capping</option>
+								<option value="gutter-protection">Gutter Protection</option>
+								<option value="repairs">Exterior Repairs</option>
+								<option value="other">Other</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="message">Work Description *</label>
+							<textarea id="message" name="message" required placeholder="Please describe the work you need done..."></textarea>
+						</div>
+
+						<button type="submit" class="btn btn-primary">Submit Request</button>
+					</form>
+				</div>
+
+				<div>
+					<h2>Contact Information</h2>
+					<div class="card">
+						<h3><span class="icon">&#xE715;</span> Email</h3>
+						<p><a href="#" id="email-link" class="contact-link">Loading...</a></p>
+					</div>
+
+					<div class="card mt-2">
+						<h3><span class="icon">&#xE717;</span> Phone</h3>
+						<p><span id="phone-display" class="contact-display">Loading...</span></p>
+					</div>
+
+					<div class="card mt-2">
+						<h3><span class="icon">&#xE787;</span> Business Hours</h3>
+						<p>Monday - Friday: 8:00 AM - 6:00 PM</p>
+						<p>Saturday: 9:00 AM - 4:00 PM</p>
+						<p>Sunday: Closed</p>
+					</div>
+
+					<div class="card mt-2">
+						<h3><span class="icon">&#xE707;</span> Service Area</h3>
+						<p>Greater Toronto Area and surrounding regions</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</MainLayout>
+
+<script>
+	// Auto-render obfuscated email and phone on page load (anti-scraping protection)
+	document.addEventListener('DOMContentLoaded', () => {
+		// Obfuscated email: geminihi@outlook.com
+		// Stored as base64 to prevent scraping
+		const obfuscatedEmail = atob('Z2VtaW5paGlAb3V0bG9vay5jb20=');
+		const emailLink = document.getElementById('email-link');
+		if (emailLink) {
+			emailLink.setAttribute('href', 'mailto:' + obfuscatedEmail);
+			emailLink.textContent = obfuscatedEmail;
+		}
+
+		// Obfuscated phone: 5551234567 (PLACEHOLDER - UPDATE WITH YOUR REAL NUMBER)
+		// Stored as character codes to prevent scraping
+		const phoneCodes = [52,49,54,51,53,55,55,55,49,54]; // "5551234567"
+		const phone = String.fromCharCode(...phoneCodes);
+		const formatted = phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+		const phoneDisplay = document.getElementById('phone-display');
+		if (phoneDisplay) {
+			phoneDisplay.textContent = formatted;
+		}
+
+		// Phone number validation and auto-formatting
+		const phoneInput = document.getElementById('phone') as HTMLInputElement;
+		const phoneError = document.getElementById('phone-error');
+		
+		if (phoneInput && phoneError) {
+			let lastValue = '';
+			
+			// Auto-format as user types with proper backspace handling
+			phoneInput.addEventListener('input', (e) => {
+				const target = e.target as HTMLInputElement;
+				const cursorPosition = target.selectionStart || 0;
+				
+				// Extract only digits
+				let digits = target.value.replace(/\D/g, '');
+				
+				// Limit to 10 digits
+				if (digits.length > 10) {
+					digits = digits.slice(0, 10);
+				}
+				
+				// Store old formatted length for cursor positioning
+				const oldFormattedLength = lastValue.length;
+				const oldDigitCount = lastValue.replace(/\D/g, '').length;
+				const isDeleting = digits.length < oldDigitCount;
+				
+				// Format as (xxx) xxx-xxxx
+				let formatted = '';
+				if (digits.length === 0) {
+					formatted = '';
+				} else if (digits.length <= 3) {
+					formatted = digits;
+				} else if (digits.length <= 6) {
+					formatted = `(${digits.slice(0,3)}) ${digits.slice(3)}`;
+				} else {
+					formatted = `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+				}
+				
+				target.value = formatted;
+				lastValue = formatted;
+				
+				// Adjust cursor position intelligently
+				if (!isDeleting) {
+					// When typing, move cursor past formatting characters
+					let newCursorPos = cursorPosition;
+					
+					// If we just added a formatting character, move cursor past it
+					if (formatted.length > oldFormattedLength) {
+						const diff = formatted.length - oldFormattedLength;
+						if (diff > 1) {
+							// We added digit + formatting character
+							newCursorPos = cursorPosition + (diff - 1);
+						}
+					}
+					
+					target.setSelectionRange(newCursorPos, newCursorPos);
+				}
+			});
+
+			// Validate on blur (when user leaves the field)
+			phoneInput.addEventListener('blur', () => {
+				const digits = phoneInput.value.replace(/\D/g, '');
+				if (phoneInput.value && digits.length !== 10) {
+					phoneError.style.display = 'block';
+					phoneInput.style.borderColor = '#d32f2f';
+				} else {
+					phoneError.style.display = 'none';
+					phoneInput.style.borderColor = '';
+				}
+			});
+
+			// Clear error on focus
+			phoneInput.addEventListener('focus', () => {
+				phoneError.style.display = 'none';
+				phoneInput.style.borderColor = '';
+			});
+		}
+
+		// Form submission
+		const form = document.getElementById('contact-form');
+		
+		form?.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			
+			// Final phone validation before submission
+			const phoneInput = document.getElementById('phone') as HTMLInputElement;
+			const phoneError = document.getElementById('phone-error');
+			if (phoneInput && phoneInput.value && phoneError) {
+				const digits = phoneInput.value.replace(/\D/g, '');
+				if (digits.length !== 10) {
+					phoneError.style.display = 'block';
+					phoneInput.style.borderColor = '#d32f2f';
+					phoneInput.focus();
+					return;
+				}
+			}
+			
+			const formData = new FormData(form as HTMLFormElement);
+			const data = Object.fromEntries(formData);
+			
+			// Create mailto link with properly formatted content
+			const subject = encodeURIComponent(`Quote Request - ${data.service || 'General Inquiry'}`);
+			const body = encodeURIComponent(
+				`Hello Gemini Home Improvements,\n\n` +
+				`I would like to request a quote for the following:\n\n` +
+				`Name: ${data.name}\n` +
+				`Email: ${data.email}\n` +
+				`Phone: ${data.phone || 'Not provided'}\n` +
+				`Service Interested In: ${data.service || 'Not specified'}\n\n` +
+				`Work Description:\n${data.message}\n\n` +
+				`Please contact me at your earliest convenience.\n\n` +
+				`Thank you!`
+			);
+			
+			// Open email client with decoded email
+			window.location.href = `mailto:${obfuscatedEmail}?subject=${subject}&body=${body}`;
+			
+			// Show confirmation message
+			const confirmation = document.createElement('div');
+			confirmation.className = 'form-confirmation';
+			confirmation.innerHTML = `
+				<h3>✓ Opening your email client...</h3>
+				<p>Your email application should open with your request pre-filled. 
+				   If it doesn't open automatically, please email us directly.</p>
+			`;
+			
+			form.style.display = 'none';
+			form.parentElement?.insertBefore(confirmation, form);
+			
+			// Reset form after 5 seconds and show it again
+			setTimeout(() => {
+				confirmation.remove();
+				form.style.display = 'block';
+				(form as HTMLFormElement).reset();
+			}, 5000);
+		});
+	});
+</script>
+
+<style>
+	.form-confirmation {
+		background-color: #48bb78;
+		color: white;
+		padding: 2rem;
+		border-radius: 8px;
+		text-align: center;
+		margin-bottom: 2rem;
+		animation: slideDown 0.3s ease;
+	}
+	
+	.form-confirmation h3 {
+		margin-bottom: 1rem;
+		color: white;
+	}
+	
+	.form-confirmation a {
+		color: white;
+		text-decoration: underline;
+	}
+	
+	@keyframes slideDown {
+		from {
+			opacity: 0;
+			transform: translateY(-20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	
+	.text-muted {
+		color: #718096;
+	}
+
+	.contact-link,
+	.contact-display {
+		color: var(--primary-color);
+		font-weight: 500;
+	}
+
+	.contact-link {
+		text-decoration: none;
+	}
+
+	.contact-link:hover {
+		text-decoration: underline;
+	}
+
+	.icon {
+		font-family: 'Segoe Fluent Icons', 'Segoe MDL2 Assets';
+		font-size: 1.1rem;
+		color: var(--primary-color);
+		margin-right: 0.5rem;
+		vertical-align: middle;
+		font-weight: normal;
+	}
+
+	/* Textarea font consistency fix */
+	.form-group textarea {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+	}
+
+	/* Phone validation styling */
+	.form-hint {
+		display: block;
+		color: #718096;
+		font-size: 0.875rem;
+		margin-top: 0.25rem;
+	}
+
+	.form-error {
+		display: block;
+		color: #d32f2f;
+		font-size: 0.875rem;
+		margin-top: 0.25rem;
+		font-weight: 500;
+	}
+</style>

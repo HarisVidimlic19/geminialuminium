@@ -1,0 +1,136 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<MainLayout title="About the Owner" description="Meet the owner of Gemini Home Improvements">
+	<section class="hero" style="padding: 3rem 0;">
+		<div class="container">
+			<h1>About the Owner</h1>
+			<p>Personal service from an experienced professional</p>
+		</div>
+	</section>
+
+	<section>
+		<div class="container">
+			<div class="grid grid-2">
+				<div>
+					<div class="owner-placeholder">
+						<span class="icon-large">&#xE77B;</span>
+					</div>
+				</div>
+				<div>
+					<h2>Professional, Personal Service</h2>
+					<p>
+						As the owner and sole operator of Gemini Home Improvements, I bring over 15 years 
+						of hands-on experience to every project. When you work with me, you get direct 
+						communication with the person who will actually be doing the work - no middlemen, 
+						no subcontractors, just reliable, quality service.
+					</p>
+					<p>
+						I founded Gemini Home Improvements in 2008 with a commitment to providing homeowners 
+						in the Greater Toronto Area with honest, quality exterior renovation services at fair 
+						prices. That commitment remains the foundation of my business today.
+					</p>
+					<p>
+						Every consultation, estimate, and installation receives my personal attention. I take 
+						pride in my work and stand behind every project with a quality guarantee. Your satisfaction 
+						is not just my goal - it's my reputation.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section style="background-color: var(--light-bg);">
+		<div class="container">
+			<h2>What You Get When You Work With Me</h2>
+			<div class="grid grid-3">
+				<div class="card">
+					<h3><span class="icon">&#xE930;</span> Direct Communication</h3>
+					<p>You deal directly with me from first contact through project completion. No sales teams or project managers - just straightforward, honest communication.</p>
+				</div>
+				<div class="card">
+					<h3><span class="icon">&#xE77B;</span> Personal Attention</h3>
+					<p>I personally handle every aspect of your project. This ensures consistent quality and attention to detail that larger companies can't match.</p>
+				</div>
+				<div class="card">
+					<h3><span class="icon">&#xE8E4;</span> Transparent Pricing</h3>
+					<p>I provide detailed, honest estimates with no hidden fees. You'll know exactly what you're paying for and why.</p>
+				</div>
+				<div class="card">
+					<h3><span class="icon">&#xE734;</span> Quality Materials</h3>
+					<p>I use only quality materials from trusted suppliers. I never cut corners because my reputation depends on the longevity of my work.</p>
+				</div>
+				<div class="card">
+					<h3><span class="icon">&#xE930;</span> Guaranteed Work</h3>
+					<p>Every project comes with my personal warranty. If there's an issue, you contact me directly - I stand behind my work.</p>
+				</div>
+				<div class="card">
+					<h3><span class="icon">&#xE787;</span> Flexible Scheduling</h3>
+					<p>As a one-man operation, I can often be more flexible with scheduling and accommodate your specific timeline needs.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="container">
+			<h2>My Expertise</h2>
+			<p class="section-description">
+				With 15+ years of focused experience in exterior renovations, I've developed 
+				expertise across all aspects of eavestrough, siding, and gutter protection services.
+			</p>
+			<div class="grid grid-2">
+				<div class="card">
+					<h3><span class="icon">&#xE80F;</span> Residential Specialist</h3>
+					<p>I specialize in residential projects - single-family homes, duplexes, and small multi-unit properties. I understand homeowner concerns and work to minimize disruption to your daily life.</p>
+				</div>
+				<div class="card">
+					<h3><span class="icon">&#xE930;</span> Licensed & Insured</h3>
+					<p>Fully licensed and insured for your protection. I maintain all necessary certifications and insurance coverage to give you complete peace of mind.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section style="background-color: var(--light-bg);">
+		<div class="container text-center">
+			<h2>Ready to Discuss Your Project?</h2>
+			<p class="section-description">
+				Contact me today for a free consultation. I'll personally assess your needs and 
+				provide an honest, detailed estimate.
+			</p>
+			<a href={`${baseUrl}/contact/`} class="btn btn-primary">Get in Touch</a>
+		</div>
+	</section>
+</MainLayout>
+
+<style>
+	.owner-placeholder {
+		width: 100%;
+		height: 400px;
+		background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 8px;
+		margin-bottom: 1rem;
+		color: var(--white);
+	}
+
+	.icon-large {
+		font-family: 'Segoe Fluent Icons', 'Segoe MDL2 Assets';
+		font-size: 8rem;
+		opacity: 0.5;
+	}
+
+	.icon {
+		font-family: 'Segoe Fluent Icons', 'Segoe MDL2 Assets';
+		font-size: 1.2rem;
+		color: var(--primary-color);
+		margin-right: 0.5rem;
+		vertical-align: middle;
+		font-weight: normal;
+	}
+</style>
