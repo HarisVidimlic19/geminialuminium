@@ -46,17 +46,19 @@ const baseUrl = import.meta.env.BASE_URL;
 		<link rel="preload" href="/logo.svg" as="image" />
 		<link rel="preconnect" href="https://www.googletagmanager.com" />
 		<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+		<link rel="preconnect" href="https://www.google-analytics.com" />
 
-		<!-- Google Analytics 4 - FREE -->
-		<!-- Replace G-XXXXXXXXXX with your actual Google Analytics Measurement ID -->
-		<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-L5PQ505X83"></script>
-		<script is:inline define:vars={{ canonicalURL: canonicalURL.href }}>
+		<!-- Google Analytics 4 -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-L5PQ505X83"></script>
+		<script is:inline>
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){dataLayer.push(arguments);}
 			gtag('js', new Date());
+			
+			// Configure Google Analytics with proper page tracking
 			gtag('config', 'G-L5PQ505X83', {
-				'page_location': canonicalURL,
-				'page_path': window.location.pathname
+				'send_page_view': true,
+				'cookie_flags': 'SameSite=None;Secure'
 			});
 		</script>
 
