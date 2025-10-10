@@ -1,15 +1,24 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import ServiceAreas from '../components/ServiceAreas.astro';
+import FAQ from '../components/FAQ.astro';
 const baseUrl = import.meta.env.BASE_URL;
 ---
 
-<MainLayout title="Home">
+<MainLayout 
+	title="Eavestrough Installation Toronto | Leaf Guards & Siding | Gemini Home Improvements"
+	description="Professional eavestrough installation, leaf guards, and exterior renovation in Toronto & GTA. Over 15 years experience. Free estimates. Call today!"
+	keywords="eavestrough installation toronto, leaf guards, gutter guards, downspouts, siding installation, exterior renovation, gta, mississauga, brampton"
+>
 	<!-- Hero Section -->
 	<section class="hero">
 		<div class="container">
-			<h1>Professional Exterior Home Improvements</h1>
-			<p>Over 15 years of experience delivering quality eavestrough, siding, and exterior renovation services</p>
-			<a href={`${baseUrl}/contact/`} class="btn">Get a Free Quote</a>
+			<h1>Professional Eavestrough Installation & Leaf Guards in Toronto & GTA</h1>
+			<p class="hero-subtitle">Expert exterior renovation services - Seamless eavestroughs, gutter guards, and quality siding installation</p>
+			<div class="hero-cta">
+				<a href="/contact/" class="btn btn-primary">Get Free Quote</a>
+				<a href="/services/" class="btn btn-secondary">View Services</a>
+			</div>
 		</div>
 	</section>
 
@@ -25,17 +34,17 @@ const baseUrl = import.meta.env.BASE_URL;
 				<div class="card">
 					<h3>Eavestrough & Downspouts</h3>
 					<p>Protect your home from water damage with quality eavestrough and downspout installations and repairs.</p>
-					<a href={`${baseUrl}/services/#eavestrough`} class="btn mt-2">Learn More</a>
+					<a href={`""/services/#eavestrough`} class="btn mt-2">Learn More</a>
 				</div>
 				<div class="card">
 					<h3>Siding & Capping</h3>
 					<p>Upgrade your home's exterior with durable and stylish siding or capping solutions.</p>
-					<a href={`${baseUrl}/services/#siding`} class="btn mt-2">Learn More</a>
+					<a href={`""/services/#siding`} class="btn mt-2">Learn More</a>
 				</div>
 				<div class="card">
 					<h3>Gutter Protection</h3>
 					<p>Keep your gutters clear with effective leaf guards and gutter screen installations.</p>
-					<a href={`${baseUrl}/services/#gutter-protection`} class="btn mt-2">Learn More</a>
+					<a href={`""/services/#gutter-protection`} class="btn mt-2">Learn More</a>
 				</div>
 			</div>
 		</div>
@@ -44,7 +53,7 @@ const baseUrl = import.meta.env.BASE_URL;
 	<!-- Why Choose Us Section -->
 	<section style="background-color: var(--light-bg);">
 		<div class="container">
-			<h2>Why Choose Gemini Home Improvements?</h2>
+			<h2>Why Choose Gemini for Eavestrough & Exterior Work in Toronto?</h2>
 			<div class="grid grid-2">
 				<div class="card">
 					<h3><span class="icon">&#xE735;</span> 15+ Years Experience</h3>
@@ -66,6 +75,12 @@ const baseUrl = import.meta.env.BASE_URL;
 		</div>
 	</section>
 
+	<!-- Service Areas Section -->
+	<ServiceAreas />
+
+	<!-- FAQ Section -->
+	<FAQ />
+
 	<!-- CTA Section -->
 	<section class="text-center">
 		<div class="container">
@@ -74,7 +89,7 @@ const baseUrl = import.meta.env.BASE_URL;
 				Contact me today for a free consultation and quote. 
 				I'll personally assess your needs and provide a fair, transparent estimate.
 			</p>
-			<a href={`${baseUrl}/contact/`} class="btn btn-primary">Request a Quote</a>
+			<a href={`""/contact/`} class="btn btn-primary">Request a Quote</a>
 		</div>
 	</section>
 </MainLayout>
@@ -87,5 +102,40 @@ const baseUrl = import.meta.env.BASE_URL;
 		margin-right: 0.5rem;
 		vertical-align: middle;
 		font-weight: normal;
+	}
+
+	.hero-subtitle {
+		font-size: 1.2rem;
+		margin: 1rem 0;
+		color: #f8f9fa;
+	}
+
+	.hero-cta {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+		margin-top: 2rem;
+	}
+
+	.btn-secondary {
+		background-color: transparent;
+		border: 2px solid white;
+		color: white;
+	}
+
+	.btn-secondary:hover {
+		background-color: white;
+		color: var(--primary-color);
+	}
+
+	@media (max-width: 768px) {
+		.hero-cta {
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.hero-subtitle {
+			font-size: 1rem;
+		}
 	}
 </style>

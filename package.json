@@ -5,9 +5,13 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "optimize-images": "node scripts/optimize-images.js",
+    "check": "astro check",
+    "lint": "astro check",
+    "deploy": "npm run build && echo 'Build complete! Ready to push to GitHub.'"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.2.2",

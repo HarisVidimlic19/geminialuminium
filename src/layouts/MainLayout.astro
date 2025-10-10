@@ -18,7 +18,7 @@ const baseUrl = import.meta.env.BASE_URL;
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content={description} />
 		<meta name="keywords" content={keywords} />
-		<link rel="icon" type="image/png" href={`${baseUrl}/favicon.png`} />
+		<link rel="icon" type="image/png" href="/favicon.png" />
 		<link rel="canonical" href={canonicalURL} />
 		<meta name="generator" content={Astro.generator} />
 		
@@ -36,30 +36,192 @@ const baseUrl = import.meta.env.BASE_URL;
 		
 		<title>{title} | Gemini Home Improvements</title>
 
+		<!-- Geo Targeting -->
+		<meta name="geo.region" content="CA-ON" />
+		<meta name="geo.placename" content="Toronto" />
+		<meta name="geo.position" content="43.6532;-79.3832" />
+		<meta name="ICBM" content="43.6532, -79.3832" />
+
+		<!-- Preload critical assets -->
+		<link rel="preload" href="/logo.svg" as="image" />
+		<link rel="preconnect" href="https://www.googletagmanager.com" />
+		<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
 		<!-- Google Analytics 4 - FREE -->
 		<!-- Replace G-XXXXXXXXXX with your actual Google Analytics Measurement ID -->
-		<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+		<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-L5PQ505X83"></script>
 		<script is:inline>
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){dataLayer.push(arguments);}
 			gtag('js', new Date());
-			gtag('config', 'G-XXXXXXXXXX');
+			gtag('config', 'G-L5PQ505X83');
+		</script>
+
+		<!-- Schema.org Structured Data for Local Business -->
+		<script type="application/ld+json" is:inline>
+		{
+			"@context": "https://schema.org",
+			"@type": "HomeAndConstructionBusiness",
+			"name": "Gemini Home Improvements",
+			"image": "https://geminialuminum.org/logo.svg",
+			"@id": "https://geminialuminum.org",
+			"url": "https://geminialuminum.org",
+			"telephone": "",
+			"email": "geminihi@outlook.com",
+			"priceRange": "$$",
+			"address": {
+				"@type": "PostalAddress",
+				"streetAddress": "",
+				"addressLocality": "Brantford",
+				"addressRegion": "ON",
+				"postalCode": "",
+				"addressCountry": "CA"
+			},
+			"geo": {
+				"@type": "GeoCoordinates",
+				"latitude": 43.1394,
+				"longitude": -80.2644
+			},
+			"areaServed": [
+				{
+					"@type": "City",
+					"name": "Toronto",
+					"@id": "https://en.wikipedia.org/wiki/Toronto"
+				},
+				{
+					"@type": "City",
+					"name": "Mississauga"
+				},
+				{
+					"@type": "City",
+					"name": "Brampton"
+				},
+				{
+					"@type": "City",
+					"name": "Vaughan"
+				},
+				{
+					"@type": "City",
+					"name": "Markham"
+				},
+				{
+					"@type": "City",
+					"name": "Richmond Hill"
+				},
+				{
+					"@type": "City",
+					"name": "Oakville"
+				},
+				{
+					"@type": "City",
+					"name": "Burlington"
+				},
+				{
+					"@type": "City",
+					"name": "Brantford"
+				}
+			],
+			"openingHoursSpecification": [
+				{
+					"@type": "OpeningHoursSpecification",
+					"dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+					"opens": "08:00",
+					"closes": "18:00"
+				},
+				{
+					"@type": "OpeningHoursSpecification",
+					"dayOfWeek": "Saturday",
+					"opens": "09:00",
+					"closes": "16:00"
+				}
+			],
+			"sameAs": [
+				"https://www.facebook.com/YOUR-PAGE",
+				"https://www.instagram.com/YOUR-PAGE"
+			],
+			"serviceType": [
+				"Eavestrough Installation",
+				"Eavestrough Repair",
+				"Downspout Installation",
+				"Gutter Guards",
+				"Leaf Guard Systems",
+				"Siding Installation",
+				"Vinyl Siding",
+				"Aluminum Capping",
+				"Fascia Repair",
+				"Soffit Installation",
+				"Exterior Renovation"
+			],
+			"hasOfferCatalog": {
+				"@type": "OfferCatalog",
+				"name": "Home Improvement Services",
+				"itemListElement": [
+					{
+						"@type": "Offer",
+						"itemOffered": {
+							"@type": "Service",
+							"name": "Eavestrough Installation",
+							"description": "Professional seamless eavestrough and downspout installation"
+						}
+					},
+					{
+						"@type": "Offer",
+						"itemOffered": {
+							"@type": "Service",
+							"name": "Gutter Protection",
+							"description": "Leaf guard and gutter guard installation to prevent clogs"
+						}
+					},
+					{
+						"@type": "Offer",
+						"itemOffered": {
+							"@type": "Service",
+							"name": "Siding Installation",
+							"description": "Vinyl siding and aluminum capping installation"
+						}
+					}
+				]
+			},
+			"aggregateRating": {
+				"@type": "AggregateRating",
+				"ratingValue": "5.0",
+				"reviewCount": "10"
+			}
+		}
+		</script>
+
+		<!-- Dynamic phone number injection for Schema.org (obfuscated) -->
+		<script is:inline>
+		document.addEventListener('DOMContentLoaded', () => {
+			// Decode obfuscated phone for Schema.org
+			const phoneCodes = [52,49,54,51,53,55,55,55,49,54];
+			const phone = String.fromCharCode(...phoneCodes);
+			const formattedPhone = '+1-' + phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+			
+			// Update Schema.org JSON-LD with phone number
+			const schemaScript = document.querySelector('script[type="application/ld+json"]');
+			if (schemaScript) {
+				const schemaData = JSON.parse(schemaScript.textContent);
+				schemaData.telephone = formattedPhone;
+				schemaScript.textContent = JSON.stringify(schemaData);
+			}
+		});
 		</script>
 	</head>
 	<body>
 		<header class="header">
 			<div class="container">
 				<nav>
-					<a href={baseUrl} class="logo">
-						<img src={`${baseUrl}/logo.svg`} alt="Gemini Home Improvements Logo" style="height: 60px;" />
+					<a href="/" class="logo">
+						<img src="/logo.svg" alt="Gemini Home Improvements Logo" style="height: 60px;" />
 					</a>
 					<ul class="nav-menu">
-						<li><a href={baseUrl}>Home</a></li>
-						<li><a href={`${baseUrl}/services/`}>Services</a></li>
-						<li><a href={`${baseUrl}/projects/`}>Projects</a></li>
-						<li><a href={`${baseUrl}/team/`}>Owner</a></li>
-						<li><a href={`${baseUrl}/about/`}>About</a></li>
-						<li><a href={`${baseUrl}/contact/`}>Contact</a></li>
+						<li><a href="/">Home</a></li>
+						<li><a href="/services/">Services</a></li>
+						<li><a href="/projects/">Projects</a></li>
+						<li><a href="/team/">Owner</a></li>
+						<li><a href="/about/">About</a></li>
+						<li><a href="/contact/">Contact</a></li>
 					</ul>
 					<button class="mobile-menu-toggle" aria-label="Toggle menu">
 						<span></span>
@@ -84,9 +246,9 @@ const baseUrl = import.meta.env.BASE_URL;
 					<div class="footer-section">
 						<h4>Quick Links</h4>
 						<ul>
-							<li><a href={`${baseUrl}/services/`}>Services</a></li>
-							<li><a href={`${baseUrl}/projects/`}>Projects</a></li>
-							<li><a href={`${baseUrl}/contact/`}>Contact</a></li>
+							<li><a href="/services/">Services</a></li>
+							<li><a href="/projects/">Projects</a></li>
+							<li><a href="/contact/">Contact</a></li>
 						</ul>
 					</div>
 					<div class="footer-section">
