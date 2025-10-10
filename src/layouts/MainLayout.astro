@@ -50,11 +50,14 @@ const baseUrl = import.meta.env.BASE_URL;
 		<!-- Google Analytics 4 - FREE -->
 		<!-- Replace G-XXXXXXXXXX with your actual Google Analytics Measurement ID -->
 		<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-L5PQ505X83"></script>
-		<script is:inline>
+		<script is:inline define:vars={{ canonicalURL: canonicalURL.href }}>
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){dataLayer.push(arguments);}
 			gtag('js', new Date());
-			gtag('config', 'G-L5PQ505X83');
+			gtag('config', 'G-L5PQ505X83', {
+				'page_location': canonicalURL,
+				'page_path': window.location.pathname
+			});
 		</script>
 
 		<!-- Schema.org Structured Data for Local Business -->
