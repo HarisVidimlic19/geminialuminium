@@ -25,7 +25,7 @@ const CARD_SIZES = {
 
 const WEBP_QUALITY = 85;
 const JPEG_QUALITY = 82;
-const OUTPUT_DIR = 'src/images';
+const OUTPUT_DIR = 'public/images'; // Output to public so images are accessible after build
 
 /**
  * Process individual image with card-optimized sizes

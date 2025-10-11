@@ -23,7 +23,7 @@ const {
 const filename = src.split('/').pop()?.split('.')[0] || '';
 const directory = src.substring(0, src.lastIndexOf('/'));
 
-// Generate srcset for responsive images
+// Generate srcset for responsive images - use /images/ path that exists in dist
 const webpSrcset = [
 	`${directory}/${filename}-small.webp 400w`,
 	`${directory}/${filename}-medium.webp 600w`, 
