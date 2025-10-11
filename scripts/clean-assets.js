@@ -7,7 +7,7 @@ import { existsSync } from 'fs';
  */
 
 const CLEANUP_PATHS = [
-	'public/images/',
+	'public/images',
 	'dist',
 	'.astro'
 ];

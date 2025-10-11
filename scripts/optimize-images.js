@@ -1,5 +1,5 @@
 import sharp from 'sharp';
-import { readdir, mkdir, copyFile, rm } from 'fs/promises';
+import { readdir, mkdir, copyFile } from 'fs/promises';
 import { join, extname, basename } from 'path';
 import { existsSync } from 'fs';
 
@@ -131,14 +131,18 @@ async function processDirectory(inputDir) {
 	}
 
 	const files = await readdir(inputDir);
-	const imageFiles = files.filter(file => 
-		/\.(jpg|jpeg|png)$/i.test(file) && 
-		!file.includes('optimized') &&
-		!file.includes('-small') &&
-		!file.includes('-medium') &&
-		!file.includes('-large') &&
-		!file.includes('-xl')
-	);
+	const imageFiles = files.filter(file => {
+		// Only process original source images (jpg, jpeg, png)
+		// Skip any already-optimized variants that might exist
+		const isImageFile = /\.(jpg|jpeg|png)$/i.test(file);
+		const isOriginal = !file.includes('-small') &&
+						  !file.includes('-medium') &&
+						  !file.includes('-large') &&
+						  !file.includes('-xl') &&
+						  !file.includes('-fallback') &&
+						  !file.includes('optimized');
+		return isImageFile && isOriginal;
+	});
 
 	console.log(`Found ${imageFiles.length} images to optimize for cards`);
 
@@ -252,7 +256,7 @@ async function main() {
 	console.log('\n✅ Next Steps:');
 	console.log('1. Images optimized for card layouts (400-1200px)');
 	console.log('2. WebP format with JPEG fallbacks generated');
-	console.log('3. Assets organized in src/images/');
+	console.log('3. Assets organized in public/images/');
 	console.log('4. Update components to use responsive images');
 	
 	console.log('\n🔧 Usage in Astro components:');
