@@ -22,6 +22,19 @@ const baseUrl = import.meta.env.BASE_URL;
 		<link rel="canonical" href={canonicalURL} />
 		<meta name="generator" content={Astro.generator} />
 		
+		<!-- Enhanced SEO Meta Tags -->
+		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+		<meta name="googlebot" content="index, follow" />
+		<meta name="author" content="Gemini Home Improvements" />
+		<meta name="language" content="English" />
+		<meta name="revisit-after" content="7 days" />
+		
+		<!-- Geo Targeting Enhanced -->
+		<meta name="geo.region" content="CA-ON" />
+		<meta name="geo.placename" content="Brantford" />
+		<meta name="geo.position" content="43.1394;-80.2644" />
+		<meta name="ICBM" content="43.1394, -80.2644" />
+		
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content={canonicalURL} />
@@ -47,6 +60,11 @@ const baseUrl = import.meta.env.BASE_URL;
 		<link rel="preconnect" href="https://www.googletagmanager.com" />
 		<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 		<link rel="preconnect" href="https://www.google-analytics.com" />
+		
+		<!-- Cross-platform icon font -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
 
 		<!-- Google Analytics 4 -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-L5PQ505X83"></script>
@@ -62,18 +80,22 @@ const baseUrl = import.meta.env.BASE_URL;
 			});
 		</script>
 
-		<!-- Schema.org Structured Data for Local Business -->
+		<!-- Enhanced Schema.org Structured Data -->
 		<script type="application/ld+json" is:inline>
 		{
 			"@context": "https://schema.org",
-			"@type": "HomeAndConstructionBusiness",
+			"@type": ["HomeAndConstructionBusiness", "LocalBusiness"],
 			"name": "Gemini Home Improvements",
+			"alternateName": ["Gemini Aluminum", "Gemini Home Improvements Brantford"],
+			"description": "Professional eavestrough installation, siding, gutter repairs, and exterior renovation services in Brantford, Toronto, and throughout the GTA. Over 15 years of experience.",
 			"image": "https://geminialuminum.org/logo.svg",
 			"@id": "https://geminialuminum.org",
 			"url": "https://geminialuminum.org",
 			"telephone": "",
 			"email": "geminihi@outlook.com",
 			"priceRange": "$$",
+			"paymentAccepted": ["Cash", "Check", "Invoice"],
+			"currenciesAccepted": "CAD",
 			"address": {
 				"@type": "PostalAddress",
 				"streetAddress": "",
@@ -90,6 +112,11 @@ const baseUrl = import.meta.env.BASE_URL;
 			"areaServed": [
 				{
 					"@type": "City",
+					"name": "Brantford",
+					"@id": "https://en.wikipedia.org/wiki/Brantford"
+				},
+				{
+					"@type": "City", 
 					"name": "Toronto",
 					"@id": "https://en.wikipedia.org/wiki/Toronto"
 				},
@@ -103,19 +130,7 @@ const baseUrl = import.meta.env.BASE_URL;
 				},
 				{
 					"@type": "City",
-					"name": "Vaughan"
-				},
-				{
-					"@type": "City",
-					"name": "Markham"
-				},
-				{
-					"@type": "City",
-					"name": "Richmond Hill"
-				},
-				{
-					"@type": "City",
-					"name": "Oakville"
+					"name": "Hamilton"
 				},
 				{
 					"@type": "City",
@@ -123,7 +138,11 @@ const baseUrl = import.meta.env.BASE_URL;
 				},
 				{
 					"@type": "City",
-					"name": "Brantford"
+					"name": "Oakville"
+				},
+				{
+					"@type": "City",
+					"name": "Cambridge"
 				}
 			],
 			"openingHoursSpecification": [
@@ -145,17 +164,17 @@ const baseUrl = import.meta.env.BASE_URL;
 				"https://www.instagram.com/YOUR-PAGE"
 			],
 			"serviceType": [
-				"Eavestrough Installation",
-				"Eavestrough Repair",
-				"Downspout Installation",
-				"Gutter Guards",
+				"Eavestrough Installation Brantford",
+				"Eavestrough Repair Toronto",
+				"Downspout Installation GTA",
+				"Gutter Guards Ontario",
 				"Leaf Guard Systems",
-				"Siding Installation",
-				"Vinyl Siding",
+				"Siding Installation Brantford",
+				"Vinyl Siding Toronto",
 				"Aluminum Capping",
 				"Fascia Repair",
 				"Soffit Installation",
-				"Exterior Renovation"
+				"Exterior Renovation GTA"
 			],
 			"hasOfferCatalog": {
 				"@type": "OfferCatalog",
@@ -166,15 +185,15 @@ const baseUrl = import.meta.env.BASE_URL;
 						"itemOffered": {
 							"@type": "Service",
 							"name": "Eavestrough Installation",
-							"description": "Professional seamless eavestrough and downspout installation"
+							"description": "Professional seamless eavestrough and downspout installation throughout Brantford and GTA"
 						}
 					},
 					{
 						"@type": "Offer",
 						"itemOffered": {
 							"@type": "Service",
-							"name": "Gutter Protection",
-							"description": "Leaf guard and gutter guard installation to prevent clogs"
+							"name": "Gutter Protection Systems",
+							"description": "Leaf guard and gutter guard installation to prevent clogs and reduce maintenance"
 						}
 					},
 					{
@@ -182,7 +201,7 @@ const baseUrl = import.meta.env.BASE_URL;
 						"itemOffered": {
 							"@type": "Service",
 							"name": "Siding Installation",
-							"description": "Vinyl siding and aluminum capping installation"
+							"description": "Vinyl siding and aluminum capping installation for residential and commercial properties"
 						}
 					}
 				]
@@ -190,8 +209,16 @@ const baseUrl = import.meta.env.BASE_URL;
 			"aggregateRating": {
 				"@type": "AggregateRating",
 				"ratingValue": "5.0",
-				"reviewCount": "10"
-			}
+				"reviewCount": "10",
+				"bestRating": "5",
+				"worstRating": "1"
+			},
+			"founder": {
+				"@type": "Person",
+				"name": "Business Owner Name"
+			},
+			"yearEstablished": "2008",
+			"slogan": "Quality workmanship, lasting results"
 		}
 		</script>
 

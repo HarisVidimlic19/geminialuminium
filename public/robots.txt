@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://geminialuminum.org/sitemap-index.xml
+
+# Block common bot paths that aren't needed
+Disallow: /api/
+Disallow: /_astro/
+Disallow: /assets/
+
+# Allow all images to be crawled
+User-agent: Googlebot-Image
+Allow: /images/
+
+# Crawl delay for aggressive bots
+User-agent: *
+Crawl-delay: 1

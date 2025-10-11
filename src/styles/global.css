@@ -11,6 +11,32 @@
 	--transition: all 0.3s ease;
 }
 
+/* Cross-platform icon system */
+.icon {
+	font-family: 'Material Symbols Outlined', 'Segoe Fluent Icons', 'Segoe MDL2 Assets', sans-serif;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 1.2rem;
+	line-height: 1;
+	letter-spacing: normal;
+	text-transform: none;
+	display: inline-block;
+	white-space: nowrap;
+	word-wrap: normal;
+	direction: ltr;
+	-webkit-font-feature-settings: 'liga';
+	font-feature-settings: 'liga';
+	-webkit-font-smoothing: antialiased;
+	color: var(--primary-color);
+	margin-right: 0.5rem;
+	vertical-align: middle;
+}
+
+/* Fallback for browsers without Material Symbols */
+.icon::before {
+	content: attr(data-fallback);
+}
+
 * {
 	margin: 0;
 	padding: 0;
