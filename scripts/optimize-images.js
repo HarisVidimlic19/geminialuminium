@@ -10,9 +10,9 @@ import { existsSync } from 'fs';
  */
 
 const IMAGE_DIRS = [
-	'public/images/projects',
-	'public/images/carousel', 
-	'public/images/services'
+	'src/images/projects',
+	'src/images/carousel', 
+	'src/images/services'
 ];
 
 // Card-optimized sizes for responsive grid layouts
