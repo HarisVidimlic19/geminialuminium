@@ -8,23 +8,40 @@ export default defineConfig({
 	base: '/',
 	integrations: [sitemap()],
 	build: {
-		assets: 'assets',
-		inlineStylesheets: 'auto', // Inline small CSS files for performance
+		assets: 'assets', // Cleaner asset organization
+		inlineStylesheets: 'auto',
+		format: 'directory', // Clean URLs
 	},
 	vite: {
 		build: {
-			minify: 'esbuild', // Minify JS/CSS
+			minify: 'esbuild',
 			cssMinify: true,
 			rollupOptions: {
 				output: {
-					// Optimize chunk splitting
-					manualChunks: undefined,
+					// Organize assets by type
+					assetFileNames: (assetInfo) => {
+						const name = assetInfo.name || 'unknown';
+						const extType = name.split('.').pop() || '';
+						if (/png|jpe?g|svg|gif|tiff|bmp|ico|webp/i.test(extType)) {
+							return `assets/images/[name]-[hash][extname]`;
+						}
+						if (/css/i.test(extType)) {
+							return `assets/css/[name]-[hash][extname]`;
+						}
+						return `assets/[name]-[hash][extname]`;
+					},
+					chunkFileNames: 'assets/js/[name]-[hash].js',
+					entryFileNames: 'assets/js/[name]-[hash].js'
 				}
 			}
 		}
 	},
-	compressHTML: true, // Minify HTML output
+	compressHTML: true,
 	image: {
+		// Configure image optimization
+		service: {
+			entrypoint: 'astro/assets/services/sharp'
+		},
 		domains: [],
 		remotePatterns: []
 	}

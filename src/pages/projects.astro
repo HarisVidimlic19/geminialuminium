@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import ResponsiveImage from '../components/ResponsiveImage.astro';
 const baseUrl = import.meta.env.BASE_URL;
 ---
 
@@ -25,42 +26,78 @@ const baseUrl = import.meta.env.BASE_URL;
 
 			<div class="grid grid-3">
 				<div class="card">
-					<img src="/images/carousel/slide2\.jpg" alt="Complete exterior renovation eavestrough siding Toronto GTA professional installation" class="project-image" loading="lazy" width="800" height="600" />
-					<h3>Complete Exterior Renovation</h3>
-					<p><strong>Completed:</strong> 2025</p>
-					<p>Full exterior makeover including eavestrough, siding, and fascia replacement with modern materials.</p>
-				</div>
-
-				<div class="card">
-					<img src="/images/carousel/slide1\.jpg" alt="European style eavestrough installation custom leaf guard system Toronto" class="project-image" loading="lazy" width="800" height="600" />
+					<ResponsiveImage 
+						src="/src/images/carousel/slide1" 
+						alt="European style eavestrough installation custom leaf guard system Toronto" 
+						width={800} 
+						height={600}
+						class="project-image"
+					/>
 					<h3>European Style Eavestrough</h3>
 					<p><strong>Completed:</strong> 2025</p>
 					<p>Custom and professional eavestrough installation featuring European style design with seamless integration and premium materials for enhanced curb appeal.</p>
 				</div>
 
 				<div class="card">
-					<img src="/images/carousel/slide3\.jpg" alt="Seamless eavestrough downspout installation GTA exterior renovation project" class="project-image" loading="lazy" width="800" height="600" />
+					<ResponsiveImage 
+						src="/src/images/carousel/slide2" 
+						alt="Complete exterior renovation eavestrough siding Toronto GTA professional installation" 
+						width={800} 
+						height={600}
+						class="project-image"
+					/>
+					<h3>Complete Exterior Renovation</h3>
+					<p><strong>Completed:</strong> 2025</p>
+					<p>Full exterior makeover including eavestrough, siding, and fascia replacement with modern materials.</p>
+				</div>
+
+				<div class="card">
+					<ResponsiveImage 
+						src="/src/images/carousel/slide3" 
+						alt="Seamless eavestrough downspout installation GTA exterior renovation project" 
+						width={800} 
+						height={600}
+						class="project-image"
+					/>
 					<h3>Exterior Renovation Project</h3>
 					<p><strong>Completed:</strong> 2024</p>
 					<p>Complete siding and eavestrough system upgrade for improved weather protection.</p>
 				</div>
 
 				<div class="card">
-					<img src="/images/projects/gutter-system-2022-1\.jpg" alt="Vinyl siding and trim installation Toronto professional exterior work" class="project-image" loading="lazy" width="800" height="600" />
+					<ResponsiveImage 
+						src="/src/images/projects/gutter-system-2022-1" 
+						alt="Vinyl siding and trim installation Toronto professional exterior work" 
+						width={800} 
+						height={600}
+						class="project-image"
+					/>
 					<h3>Siding & Trim Package</h3>
 					<p><strong>Completed:</strong> 2024</p>
 					<p>Complete siding replacement with custom trim details and professional finishing.</p>
 				</div>
 
 				<div class="card">
-					<img src="/images/projects/complete-renovation-2023\.jpg" alt="Complete exterior renovation" class="project-image" loading="lazy" />
+					<ResponsiveImage 
+						src="/src/images/projects/complete-renovation-2023" 
+						alt="Complete exterior renovation" 
+						width={800} 
+						height={600}
+						class="project-image"
+					/>
 					<h3>Full House Renovation</h3>
 					<p><strong>Completed:</strong> 2023</p>
 					<p>Complete exterior transformation with coordinated siding, eavestrough, and trim work.</p>
 				</div>
 
 				<div class="card">
-					<img src="/images/projects/fascia-repair-2022\.jpg" alt="Fascia repair and replacement" class="project-image" loading="lazy" />
+					<ResponsiveImage 
+						src="/src/images/projects/fascia-repair-2022" 
+						alt="Fascia repair and replacement" 
+						width={800} 
+						height={600}
+						class="project-image"
+					/>
 					<h3>Fascia Repair & Replacement</h3>
 					<p><strong>Completed:</strong> 2023</p>
 					<p>Damaged fascia repair with aluminum capping for long-lasting protection.</p>
@@ -69,21 +106,39 @@ const baseUrl = import.meta.env.BASE_URL;
 			
 			<div class="grid grid-3 mt-3">
 				<div class="card">
-					<img src="/images/projects/gutter-protection-system\.jpg" alt="Gutter protection system" class="project-image" loading="lazy" />
+					<ResponsiveImage 
+						src="/src/images/projects/gutter-protection-system" 
+						alt="Gutter protection system" 
+						width={800} 
+						height={600}
+						class="project-image"
+					/>
 					<h3>Gutter Protection System</h3>
 					<p><strong>Completed:</strong> 2023</p>
 					<p>Premium leaf guard installation to prevent clogs and reduce maintenance.</p>
 				</div>
 
 				<div class="card">
-					<img src="/old_images/image05\.jpg" alt="Residential exterior renovation" class="project-image" loading="lazy" />
+					<ResponsiveImage 
+						src="/src/images/projects/image05" 
+						alt="Residential exterior renovation" 
+						width={800} 
+						height={600}
+						class="project-image"
+					/>
 					<h3>Residential Renovation</h3>
 					<p><strong>Completed:</strong> 2020</p>
 					<p>Complete exterior refresh with coordinated colors and quality materials.</p>
 				</div>
 
 				<div class="card">
-					<img src="/old_images/image07\.jpg" alt="Multi-unit exterior renovation" class="project-image" loading="lazy" />
+					<ResponsiveImage 
+						src="/src/images/projects/image07" 
+						alt="Multi-unit exterior renovation" 
+						width={800} 
+						height={600}
+						class="project-image"
+					/>
 					<h3>Multi-Unit Exterior Work</h3>
 					<p><strong>Completed:</strong> 2020</p>
 					<p>Large-scale exterior renovation including siding, eavestroughs, and trim work.</p>
@@ -104,36 +159,68 @@ const baseUrl = import.meta.env.BASE_URL;
 </MainLayout>
 
 <style>
-	.project-image {
-		width: 100%;
-		height: 250px;
-		object-fit: cover;
-		border-radius: 8px;
-		margin-bottom: 1rem;
-		display: block;
-	}
-
+	/* Optimized styles for responsive images */
 	.grid-3 .card {
 		display: flex;
 		flex-direction: column;
+		background: white;
+		border-radius: 12px;
+		overflow: hidden;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+
+	.grid-3 .card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+	}
+
+	.project-image {
+		width: 100%;
+		height: 250px;
+		margin-bottom: 1rem;
+		border-radius: 0; /* Override component border-radius for cards */
 	}
 
 	.grid-3 .card h3 {
-		margin-top: 0;
-		margin-bottom: 0.5rem;
+		margin: 1rem 1rem 0.5rem 1rem;
+		font-size: 1.25rem;
+		color: var(--primary-color);
 	}
 
 	.grid-3 .card p {
-		margin: 0.25rem 0;
+		margin: 0.25rem 1rem;
+		color: var(--text-color);
+		line-height: 1.5;
 	}
 
 	.grid-3 .card p:last-child {
 		flex-grow: 1;
+		margin-bottom: 1.5rem;
+	}
+
+	/* Performance optimization for cards */
+	.card {
+		contain: layout style paint;
+		content-visibility: auto;
+		contain-intrinsic-size: 400px 600px;
 	}
 
 	@media (max-width: 768px) {
 		.project-image {
 			height: 200px;
+		}
+		
+		.grid-3 .card {
+			margin-bottom: 1.5rem;
+		}
+	}
+
+	/* Loading performance improvements */
+	@media (prefers-reduced-motion: reduce) {
+		.grid-3 .card,
+		.project-image img {
+			transition: none;
 		}
 	}
 </style>

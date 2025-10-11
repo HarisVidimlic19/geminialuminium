@@ -5,13 +5,17 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "npm run optimize:images && astro check && astro build",
+    "build:fast": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "optimize-images": "node scripts/optimize-images.js",
+    "optimize:images": "node scripts/optimize-images.js",
+    "optimize:clean": "node scripts/clean-assets.js",
+    "prebuild": "npm run optimize:images",
     "check": "astro check",
     "lint": "astro check",
-    "deploy": "npm run build && echo 'Build complete! Ready to push to GitHub.'"
+    "deploy": "npm run build && echo '🚀 Build optimized! Ready for deployment.'",
+    "dev:clean": "npm run optimize:clean && npm run dev"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.2.2",

@@ -1,0 +1,91 @@
+---
+export interface Props {
+	src: string;
+	alt: string;
+	width: number;
+	height: number;
+	loading?: 'lazy' | 'eager';
+	class?: string;
+	sizes?: string;
+}
+
+const { 
+	src, 
+	alt, 
+	width, 
+	height, 
+	loading = 'lazy',
+	class: className = '',
+	sizes = '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'
+} = Astro.props;
+
+// Extract filename without extension for responsive variants
+const filename = src.split('/').pop()?.split('.')[0] || '';
+const directory = src.substring(0, src.lastIndexOf('/'));
+
+// Generate srcset for responsive images
+const webpSrcset = [
+	`${directory}/${filename}-small.webp 400w`,
+	`${directory}/${filename}-medium.webp 600w`, 
+	`${directory}/${filename}-large.webp 800w`,
+	`${directory}/${filename}-xl.webp 1200w`
+].join(', ');
+
+const jpegFallback = `${directory}/${filename}-fallback.jpg`;
+---
+
+<picture class={`responsive-image ${className}`}>
+	<source 
+		srcset={webpSrcset}
+		sizes={sizes}
+		type="image/webp" 
+	/>
+	<img 
+		src={jpegFallback}
+		alt={alt}
+		width={width}
+		height={height}
+		loading={loading}
+		decoding="async"
+		class="responsive-img"
+	/>
+</picture>
+
+<style>
+	.responsive-image {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.responsive-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 8px;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+
+	.responsive-img:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+	}
+
+	/* Loading state with skeleton */
+	.responsive-img[loading="lazy"] {
+		background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+		background-size: 200% 100%;
+		animation: loading 1.5s infinite;
+	}
+
+	@keyframes loading {
+		0% { background-position: 200% 0; }
+		100% { background-position: -200% 0; }
+	}
+
+	/* High performance loading */
+	.responsive-img {
+		content-visibility: auto;
+		contain-intrinsic-size: 300px 200px;
+	}
+</style>

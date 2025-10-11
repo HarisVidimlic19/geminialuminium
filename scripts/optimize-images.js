@@ -1,55 +1,64 @@
 import sharp from 'sharp';
-import { readdir, mkdir } from 'fs/promises';
+import { readdir, mkdir, copyFile, rm } from 'fs/promises';
 import { join, extname, basename } from 'path';
 import { existsSync } from 'fs';
 
 /**
- * Image Optimization Script
- * Converts images to WebP format and creates multiple sizes for responsive loading
+ * Optimized Image Processing for Astro Cards
+ * Generates card-specific sizes for 1920x1080 viewports
+ * Focuses on WebP-first with optimized dimensions
  */
 
 const IMAGE_DIRS = [
 	'public/images/projects',
-	'public/images/carousel',
-	'public/images/services',
-	'public/old_images'
+	'public/images/carousel', 
+	'public/images/services'
 ];
 
-const SIZES = {
-	thumbnail: 400,
-	small: 800,
-	medium: 1200,
-	large: 1920
+// Card-optimized sizes for responsive grid layouts
+const CARD_SIZES = {
+	small: 400,    // Mobile cards
+	medium: 600,   // Tablet cards  
+	large: 800,    // Desktop cards
+	xl: 1200       // High-DPI desktop
 };
 
 const WEBP_QUALITY = 85;
-const JPEG_QUALITY = 85;
+const JPEG_QUALITY = 82;
+const OUTPUT_DIR = 'src/images';
 
-async function optimizeImage(inputPath, outputDir, filename) {
+/**
+ * Process individual image with card-optimized sizes
+ */
+async function optimizeForCards(inputPath, outputDir, filename) {
 	const name = basename(filename, extname(filename));
 	const results = [];
 
 	try {
-		// Get image metadata
 		const metadata = await sharp(inputPath).metadata();
-		const originalWidth = metadata.width || 1920;
+		const originalWidth = metadata.width || 1200;
 
 		console.log(`\n📸 Processing: ${filename}`);
 		console.log(`   Original: ${originalWidth}x${metadata.height} (${Math.round(metadata.size / 1024)}KB)`);
 
-		// Generate WebP versions at different sizes
-		for (const [sizeName, width] of Object.entries(SIZES)) {
-			// Skip if original is smaller than target size
+		// Generate WebP versions optimized for card containers
+		for (const [sizeName, width] of Object.entries(CARD_SIZES)) {
 			if (originalWidth < width) continue;
 
 			const webpPath = join(outputDir, `${name}-${sizeName}.webp`);
 			
 			await sharp(inputPath)
+				.rotate() // Auto-rotate based on EXIF orientation
 				.resize(width, null, {
-					fit: 'inside',
+					fit: 'cover',
+					position: 'center',
 					withoutEnlargement: true
 				})
-				.webp({ quality: WEBP_QUALITY })
+				.webp({ 
+					quality: WEBP_QUALITY,
+					effort: 6,
+					lossless: false
+				})
 				.toFile(webpPath);
 
 			const stats = await sharp(webpPath).metadata();
@@ -59,25 +68,37 @@ async function optimizeImage(inputPath, outputDir, filename) {
 				size: sizeName,
 				path: webpPath,
 				width: stats.width,
-				height: stats.height
+				height: stats.height,
+				format: 'webp'
 			});
 		}
 
-		// Create optimized original format version
-		const optimizedPath = join(outputDir, `${name}-optimized${extname(filename)}`);
-		
-		if (extname(filename).toLowerCase() === '.jpg' || extname(filename).toLowerCase() === '.jpeg') {
-			await sharp(inputPath)
-				.jpeg({ quality: JPEG_QUALITY, progressive: true })
-				.toFile(optimizedPath);
-		} else if (extname(filename).toLowerCase() === '.png') {
-			await sharp(inputPath)
-				.png({ quality: JPEG_QUALITY, compressionLevel: 9 })
-				.toFile(optimizedPath);
-		}
+		// Create one optimized JPEG fallback at medium size
+		const fallbackPath = join(outputDir, `${name}-fallback.jpg`);
+		await sharp(inputPath)
+			.rotate() // Auto-rotate based on EXIF orientation
+			.resize(800, null, {
+				fit: 'cover',
+				position: 'center',
+				withoutEnlargement: true
+			})
+			.jpeg({ 
+				quality: JPEG_QUALITY, 
+				progressive: true,
+				mozjpeg: true 
+			})
+			.toFile(fallbackPath);
 
-		const optimizedStats = await sharp(optimizedPath).metadata();
-		console.log(`   ✓ Optimized original: ${Math.round(optimizedStats.size / 1024)}KB`);
+		const fallbackStats = await sharp(fallbackPath).metadata();
+		console.log(`   ✓ Fallback JPEG: ${fallbackStats.width}x${fallbackStats.height} (${Math.round(fallbackStats.size / 1024)}KB)`);
+
+		results.push({
+			size: 'fallback',
+			path: fallbackPath,
+			width: fallbackStats.width,
+			height: fallbackStats.height,
+			format: 'jpeg'
+		});
 
 		return results;
 
@@ -87,79 +108,165 @@ async function optimizeImage(inputPath, outputDir, filename) {
 	}
 }
 
-async function processDirectory(dir) {
+/**
+ * Process directory with card optimization focus
+ */
+async function processDirectory(inputDir) {
 	console.log(`\n${'='.repeat(60)}`);
-	console.log(`📁 Processing directory: ${dir}`);
+	console.log(`📁 Processing: ${inputDir}`);
 	console.log('='.repeat(60));
 
-	if (!existsSync(dir)) {
-		console.log(`⚠️  Directory not found: ${dir}`);
-		return;
+	if (!existsSync(inputDir)) {
+		console.log(`⚠️  Directory not found: ${inputDir}`);
+		return { processed: 0, originalSize: 0, optimizedSize: 0 };
 	}
 
-	// Create optimized subdirectory
-	const optimizedDir = join(dir, 'optimized');
-	if (!existsSync(optimizedDir)) {
-		await mkdir(optimizedDir, { recursive: true });
-		console.log(`✓ Created output directory: ${optimizedDir}`);
+	// Create category-specific output directory
+	const category = inputDir.split('/').pop();
+	const outputDir = join(OUTPUT_DIR, category);
+	
+	if (!existsSync(outputDir)) {
+		await mkdir(outputDir, { recursive: true });
+		console.log(`✓ Created output: ${outputDir}`);
 	}
 
-	// Get all image files
-	const files = await readdir(dir);
+	const files = await readdir(inputDir);
 	const imageFiles = files.filter(file => 
-		/\.(jpg|jpeg|png)$/i.test(file) && !file.includes('optimized')
+		/\.(jpg|jpeg|png)$/i.test(file) && 
+		!file.includes('optimized') &&
+		!file.includes('-small') &&
+		!file.includes('-medium') &&
+		!file.includes('-large') &&
+		!file.includes('-xl')
 	);
 
-	console.log(`Found ${imageFiles.length} images to process\n`);
+	console.log(`Found ${imageFiles.length} images to optimize for cards`);
 
-	let totalOriginalSize = 0;
-	let totalOptimizedSize = 0;
+	let totalOriginal = 0;
+	let totalOptimized = 0;
+	let processedCount = 0;
 
-	// Process each image
 	for (const file of imageFiles) {
-		const inputPath = join(dir, file);
+		const inputPath = join(inputDir, file);
 		const originalStats = await sharp(inputPath).metadata();
-		totalOriginalSize += originalStats.size;
+		totalOriginal += originalStats.size;
 
-		const results = await optimizeImage(inputPath, optimizedDir, file);
+		const results = await optimizeForCards(inputPath, outputDir, file);
 		
-		// Calculate savings
-		for (const result of results) {
-			const stats = await sharp(result.path).metadata();
-			totalOptimizedSize += stats.size;
+		if (results.length > 0) {
+			processedCount++;
+			for (const result of results) {
+				const stats = await sharp(result.path).metadata();
+				totalOptimized += stats.size;
+			}
 		}
 	}
 
-	// Summary
-	console.log(`\n${'─'.repeat(60)}`);
-	console.log(`📊 Summary for ${dir}:`);
-	console.log(`   Images processed: ${imageFiles.length}`);
-	console.log(`   Original total size: ${Math.round(totalOriginalSize / 1024)}KB`);
-	console.log(`   Optimized total size: ${Math.round(totalOptimizedSize / 1024)}KB`);
-	const savings = ((totalOriginalSize - totalOptimizedSize) / totalOriginalSize * 100).toFixed(1);
-	console.log(`   Space saved: ${savings}% (${Math.round((totalOriginalSize - totalOptimizedSize) / 1024)}KB)`);
-	console.log('─'.repeat(60));
+	const savings = totalOriginal > 0 ? 
+		((totalOriginal - totalOptimized) / totalOriginal * 100).toFixed(1) : 0;
+
+	console.log(`\n📊 ${category.toUpperCase()} Summary:`);
+	console.log(`   Images: ${processedCount}/${imageFiles.length}`);
+	console.log(`   Original: ${Math.round(totalOriginal / 1024)}KB`);
+	console.log(`   Optimized: ${Math.round(totalOptimized / 1024)}KB`);
+	console.log(`   Saved: ${savings}% (${Math.round((totalOriginal - totalOptimized) / 1024)}KB)`);
+
+	return { 
+		processed: processedCount, 
+		originalSize: totalOriginal, 
+		optimizedSize: totalOptimized 
+	};
 }
 
-async function main() {
-	console.log('\n🚀 Image Optimization Tool');
-	console.log('Converting to WebP and creating responsive sizes...\n');
+/**
+ * Copy and optimize other assets (logos, favicons)
+ */
+async function processAssets() {
+	console.log(`\n${'='.repeat(60)}`);
+	console.log('� Processing Assets (logos, favicons)');
+	console.log('='.repeat(60));
 
-	for (const dir of IMAGE_DIRS) {
-		await processDirectory(dir);
+	const assetsOutputDir = join(OUTPUT_DIR, 'assets');
+	if (!existsSync(assetsOutputDir)) {
+		await mkdir(assetsOutputDir, { recursive: true });
 	}
 
-	console.log('\n✅ Image optimization complete!');
-	console.log('\n📝 Next steps:');
-	console.log('1. Review optimized images in /optimized folders');
-	console.log('2. Update image references in your pages to use WebP with fallbacks');
-	console.log('3. Use <picture> tags for maximum compatibility');
-	console.log('\nExample usage:');
+	// Copy and optimize logo
+	if (existsSync('public/logo.svg')) {
+		await copyFile('public/logo.svg', join(assetsOutputDir, 'logo.svg'));
+		console.log('✓ Logo copied: logo.svg');
+	}
+
+	// Copy favicons
+	if (existsSync('public/favicon.png')) {
+		await copyFile('public/favicon.png', join(assetsOutputDir, 'favicon.png'));
+		console.log('✓ Favicon copied: favicon.png');
+	}
+
+	if (existsSync('public/favicon.svg')) {
+		await copyFile('public/favicon.svg', join(assetsOutputDir, 'favicon.svg'));
+		console.log('✓ Favicon copied: favicon.svg');
+	}
+}
+
+/**
+ * Main execution function
+ */
+async function main() {
+	console.log('\n🚀 Card-Optimized Image Processing');
+	console.log('📱 Optimizing for responsive cards on 1920x1080 viewports\n');
+
+	// Create main output directory
+	if (!existsSync(OUTPUT_DIR)) {
+		await mkdir(OUTPUT_DIR, { recursive: true });
+	}
+
+	let totalStats = {
+		processed: 0,
+		originalSize: 0,
+		optimizedSize: 0
+	};
+
+	// Process each image directory
+	for (const dir of IMAGE_DIRS) {
+		const stats = await processDirectory(dir);
+		totalStats.processed += stats.processed;
+		totalStats.originalSize += stats.originalSize;
+		totalStats.optimizedSize += stats.optimizedSize;
+	}
+
+	// Process other assets
+	await processAssets();
+
+	// Final summary
+	const totalSavings = totalStats.originalSize > 0 ? 
+		((totalStats.originalSize - totalStats.optimizedSize) / totalStats.originalSize * 100).toFixed(1) : 0;
+
+	console.log(`\n${'='.repeat(60)}`);
+	console.log('🎉 OPTIMIZATION COMPLETE');
+	console.log('='.repeat(60));
+	console.log(`� Total Images Processed: ${totalStats.processed}`);
+	console.log(`📈 Total Space Saved: ${totalSavings}% (${Math.round((totalStats.originalSize - totalStats.optimizedSize) / 1024)}KB)`);
+	console.log(`📁 Output Location: ${OUTPUT_DIR}`);
+	
+	console.log('\n✅ Next Steps:');
+	console.log('1. Images optimized for card layouts (400-1200px)');
+	console.log('2. WebP format with JPEG fallbacks generated');
+	console.log('3. Assets organized in src/images/');
+	console.log('4. Update components to use responsive images');
+	
+	console.log('\n🔧 Usage in Astro components:');
 	console.log(`
-<picture>
-  <source srcset="/images/projects/optimized/project-medium.webp" type="image/webp">
-  <img src="/images/projects/optimized/project-optimized.jpg" alt="..." loading="lazy">
-</picture>
+import { Image } from 'astro:assets';
+import heroImage from '../images/carousel/slide1-large.webp';
+
+<Image 
+  src={heroImage} 
+  alt="Description" 
+  width={800} 
+  height={600}
+  loading="lazy"
+/>
 	`);
 }
 
