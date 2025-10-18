@@ -1,0 +1,5 @@
+# Redirect www to non-www
+https://www.geminialuminum.org/* https://geminialuminum.org/:splat 301!
+
+# Ensure trailing slashes
+/* /index.html 200

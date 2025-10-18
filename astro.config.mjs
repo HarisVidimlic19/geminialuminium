@@ -6,7 +6,36 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
 	site: 'https://geminialuminum.org',
 	base: '/',
-	integrations: [sitemap()],
+	integrations: [
+		sitemap({
+			customPages: [
+				'https://geminialuminum.org/',
+				'https://geminialuminum.org/services/',
+				'https://geminialuminum.org/projects/',
+				'https://geminialuminum.org/team/',
+				'https://geminialuminum.org/about/',
+				'https://geminialuminum.org/contact/',
+				'https://geminialuminum.org/privacy/',
+			],
+			serialize: (item) => {
+				// Set custom priority based on page importance
+					if (item.url === 'https://geminialuminum.org/') {
+						item.priority = 1.0;
+					} else if (item.url.includes('/services/') || item.url.includes('/contact/')) {
+						item.priority = 0.9;
+					} else if (item.url.includes('/team/')) {
+						item.priority = 0.8;
+					} else if (item.url.includes('/projects/') || item.url.includes('/about/')) {
+						item.priority = 0.8;
+				} else if (item.url.includes('/privacy/')) {
+					item.priority = 0.3;
+				} else {
+					item.priority = 0.7;
+				}
+				return item;
+			},
+		}),
+	],
 	build: {
 		assets: 'assets', // Cleaner asset organization
 		inlineStylesheets: 'auto',
