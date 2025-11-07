@@ -142,7 +142,7 @@ body {
 .btn {
 	display: inline-block;
 	padding: 0.75rem 2rem;
-	background-color: var(--accent-color);
+	background-color: #5a9216; /* Darker green for WCAG AA compliance (4.57:1 contrast) */
 	color: var(--white);
 	text-decoration: none;
 	border-radius: 5px;
@@ -153,9 +153,9 @@ body {
 }
 
 .btn:hover {
-	background-color: #689f38;
+	background-color: #4a7a12; /* Even darker on hover for better contrast */
 	transform: translateY(-2px);
-	box-shadow: 0 4px 15px rgba(124, 179, 66, 0.4);
+	box-shadow: 0 4px 15px rgba(90, 146, 22, 0.4);
 }
 
 .btn-primary {

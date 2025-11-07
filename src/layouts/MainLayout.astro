@@ -84,6 +84,26 @@ const baseUrl = import.meta.env.BASE_URL;
 		<link rel="preload" href="/logo.svg" as="image" type="image/svg+xml" />
 		<link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
 		
+		<!-- Critical CSS for above-the-fold content (eliminates render blocking) -->
+		<style is:inline>
+			:root{--primary-color:#1e4d2b;--secondary-color:#5a8a6f;--accent-color:#7cb342;--text-color:#2d3748;--light-bg:#f7fafc;--white:#ffffff;--gray:#e2e8f0;--dark:#1a202c;--transition:all 0.3s ease}
+			*{margin:0;padding:0;box-sizing:border-box}
+			html{font-family:'Open Sans',Roboto,-apple-system,BlinkMacSystemFont,'Segoe UI',Oxygen,Ubuntu,Cantarell,sans-serif;scroll-behavior:smooth}
+			body{line-height:1.6;color:var(--text-color);background-color:var(--white)}
+			.container{max-width:1200px;margin:0 auto;padding:0 20px}
+			.header{background-color:var(--white);box-shadow:0 2px 10px rgba(0,0,0,0.1);position:sticky;top:0;z-index:1000}
+			.header nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 0}
+			.logo h1{font-size:1.5rem;color:var(--primary-color);text-decoration:none}
+			.nav-menu{display:flex;gap:2rem;list-style:none}
+			.nav-menu a{color:var(--text-color);text-decoration:none;font-weight:500;transition:var(--transition)}
+			.hero{background:linear-gradient(135deg,var(--primary-color),var(--secondary-color));color:var(--white);padding:6rem 0;text-align:center}
+			.hero h1{font-size:3rem;margin-bottom:1rem}
+			.hero p{font-size:1.25rem;margin-bottom:2rem}
+			.btn{display:inline-block;padding:0.75rem 2rem;background-color:#5a9216;color:var(--white);text-decoration:none;border-radius:5px;font-weight:600;transition:var(--transition);border:none;cursor:pointer}
+			.btn:hover{background-color:#4a7a12;transform:translateY(-2px);box-shadow:0 4px 15px rgba(90,146,22,0.4)}
+			@media (max-width:768px){.hero h1{font-size:2rem}.hero p{font-size:1rem}}
+		</style>
+		
 		<!-- Preconnect for external resources -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
