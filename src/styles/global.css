@@ -142,7 +142,7 @@ body {
 .btn {
 	display: inline-block;
 	padding: 0.75rem 2rem;
-	background-color: #5a9216; /* Darker green for WCAG AA compliance (4.57:1 contrast) */
+	background-color: #39600B; /* Darker green for WCAG AA compliance (4.57:1 contrast) */
 	color: var(--white);
 	text-decoration: none;
 	border-radius: 5px;
@@ -150,6 +150,7 @@ body {
 	transition: var(--transition);
 	border: none;
 	cursor: pointer;
+	will-change: transform, box-shadow; /* Optimize hover animation */
 }
 
 .btn:hover {
@@ -206,6 +207,7 @@ section h2 {
 	padding: 2rem;
 	box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 	transition: var(--transition);
+	will-change: transform, box-shadow; /* Optimize hover animation */
 }
 
 .card:hover {
@@ -345,15 +347,20 @@ section h2 {
 		display: flex;
 	}
 
+	/* Simplified selectors for better performance */
+	.mobile-menu-toggle.active span {
+		transition: var(--transition);
+	}
+	
 	.mobile-menu-toggle.active span:nth-child(2) {
 		opacity: 0;
 	}
 
-	.mobile-menu-toggle.active span:nth-child(1) {
+	.mobile-menu-toggle.active span:first-child {
 		transform: translateY(8px) rotate(45deg);
 	}
 
-	.mobile-menu-toggle.active span:nth-child(3) {
+	.mobile-menu-toggle.active span:last-child {
 		transform: translateY(-8px) rotate(-45deg);
 	}
 

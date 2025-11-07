@@ -96,83 +96,57 @@ import MainLayout from '../layouts/MainLayout.astro';
 </MainLayout>
 
 <script>
-	// Auto-render obfuscated email and phone on page load (anti-scraping protection)
+	// Contact info is handled by MainLayout (footer email/phone deobfuscation)
+	// This script only handles contact page-specific elements
 	document.addEventListener('DOMContentLoaded', () => {
-		// Obfuscated email: geminihi@outlook.com
-		// Stored as base64 to prevent scraping
-		const obfuscatedEmail = atob('Z2VtaW5paGlAb3V0bG9vay5jb20=');
+		// Get email from MainLayout's deobfuscation
+		const footerEmail = document.getElementById('footer-email');
 		const emailLink = document.getElementById('email-link');
-		if (emailLink) {
-			emailLink.setAttribute('href', 'mailto:' + obfuscatedEmail);
-			emailLink.textContent = obfuscatedEmail;
+		if (footerEmail && emailLink) {
+			const email = footerEmail.textContent;
+			emailLink.setAttribute('href', 'mailto:' + email);
+			emailLink.textContent = email;
 		}
 
-		// Obfuscated phone: 5551234567 (PLACEHOLDER - UPDATE WITH YOUR REAL NUMBER)
-		// Stored as character codes to prevent scraping
-		const phoneCodes = [52,49,54,51,53,55,55,55,49,54]; // "5551234567"
-		const phone = String.fromCharCode(...phoneCodes);
-		const formatted = phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+		// Get phone from MainLayout's deobfuscation
+		const footerPhone = document.getElementById('footer-phone');
 		const phoneDisplay = document.getElementById('phone-display');
-		if (phoneDisplay) {
-			phoneDisplay.textContent = formatted;
+		if (footerPhone && phoneDisplay) {
+			phoneDisplay.textContent = footerPhone.textContent;
 		}
 
-		// Phone number validation and auto-formatting
+		// Phone number validation and auto-formatting (debounced)
 		const phoneInput = document.getElementById('phone') as HTMLInputElement;
 		const phoneError = document.getElementById('phone-error');
 		
 		if (phoneInput && phoneError) {
-			let lastValue = '';
+			let formatTimeout: number;
 			
-			// Auto-format as user types with proper backspace handling
+			// Debounced formatting - only format after user stops typing
 			phoneInput.addEventListener('input', (e) => {
-				const target = e.target as HTMLInputElement;
-				const cursorPosition = target.selectionStart || 0;
+				clearTimeout(formatTimeout);
 				
-				// Extract only digits
-				let digits = target.value.replace(/\D/g, '');
-				
-				// Limit to 10 digits
-				if (digits.length > 10) {
-					digits = digits.slice(0, 10);
-				}
-				
-				// Store old formatted length for cursor positioning
-				const oldFormattedLength = lastValue.length;
-				const oldDigitCount = lastValue.replace(/\D/g, '').length;
-				const isDeleting = digits.length < oldDigitCount;
-				
-				// Format as (xxx) xxx-xxxx
-				let formatted = '';
-				if (digits.length === 0) {
-					formatted = '';
-				} else if (digits.length <= 3) {
-					formatted = digits;
-				} else if (digits.length <= 6) {
-					formatted = `(${digits.slice(0,3)}) ${digits.slice(3)}`;
-				} else {
-					formatted = `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
-				}
-				
-				target.value = formatted;
-				lastValue = formatted;
-				
-				// Adjust cursor position intelligently
-				if (!isDeleting) {
-					// When typing, move cursor past formatting characters
-					let newCursorPos = cursorPosition;
+				formatTimeout = window.setTimeout(() => {
+					const target = e.target as HTMLInputElement;
+					let digits = target.value.replace(/\D/g, '');
 					
-					// If we just added a formatting character, move cursor past it
-					if (formatted.length > oldFormattedLength) {
-						const diff = formatted.length - oldFormattedLength;
-						if (diff > 1) {
-							// We added digit + formatting character
-							newCursorPos = cursorPosition + (diff - 1);
-						}
+					// Limit to 10 digits
+					if (digits.length > 10) digits = digits.slice(0, 10);
+					
+					// Format as (xxx) xxx-xxxx
+					let formatted = '';
+					if (digits.length === 0) {
+						formatted = '';
+					} else if (digits.length <= 3) {
+						formatted = digits;
+					} else if (digits.length <= 6) {
+						formatted = `(${digits.slice(0,3)}) ${digits.slice(3)}`;
+					} else {
+						formatted = `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
 					}
 					
-					target.setSelectionRange(newCursorPos, newCursorPos);
-				}
+					target.value = formatted;
+				}, 150); // Wait 150ms after user stops typing
 			});
 
 			// Validate on blur (when user leaves the field)
@@ -230,8 +204,12 @@ import MainLayout from '../layouts/MainLayout.astro';
 				`Thank you!`
 			);
 			
-			// Open email client with decoded email
-			window.location.href = `mailto:${obfuscatedEmail}?subject=${subject}&body=${body}`;
+			// Get email from MainLayout for mailto
+			const footerEmail = document.getElementById('footer-email');
+			const email = footerEmail ? footerEmail.textContent || '' : '';
+			
+			// Open email client with email
+			window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
 			
 			// Show confirmation message
 			const confirmation = document.createElement('div');

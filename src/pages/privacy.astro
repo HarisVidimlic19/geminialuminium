@@ -1,6 +1,5 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <MainLayout 
@@ -110,31 +109,33 @@ const baseUrl = import.meta.env.BASE_URL;
 	</div>
 
 	<script>
-		// Auto-render obfuscated email and phone on page load
+		// Contact info is handled by MainLayout (footer email/phone deobfuscation)
+		// This script only copies values to privacy page elements
 		document.addEventListener('DOMContentLoaded', () => {
-			// Obfuscated email: geminihi@outlook.com (Base64)
-			const obfuscatedEmail = atob('Z2VtaW5paGlAb3V0bG9vay5jb20=');
-			
-			// Update both email links
-			const emailRights = document.getElementById('privacy-email-rights');
-			if (emailRights) {
-				emailRights.setAttribute('href', 'mailto:' + obfuscatedEmail);
-				emailRights.textContent = obfuscatedEmail;
+			// Get email from MainLayout's footer
+			const footerEmail = document.getElementById('footer-email');
+			if (footerEmail) {
+				const email = footerEmail.textContent || '';
+				
+				// Update both email links on privacy page
+				const emailRights = document.getElementById('privacy-email-rights');
+				if (emailRights) {
+					emailRights.setAttribute('href', 'mailto:' + email);
+					emailRights.textContent = email;
+				}
+				
+				const emailContact = document.getElementById('privacy-email-contact');
+				if (emailContact) {
+					emailContact.setAttribute('href', 'mailto:' + email);
+					emailContact.textContent = email;
+				}
 			}
 			
-			const emailContact = document.getElementById('privacy-email-contact');
-			if (emailContact) {
-				emailContact.setAttribute('href', 'mailto:' + obfuscatedEmail);
-				emailContact.textContent = obfuscatedEmail;
-			}
-			
-			// Obfuscated phone number (Character codes)
-			const phoneCodes = [52,49,54,51,53,55,55,55,49,54];
-			const phone = String.fromCharCode(...phoneCodes);
-			const formatted = phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+			// Get phone from MainLayout's footer
+			const footerPhone = document.getElementById('footer-phone');
 			const privacyPhone = document.getElementById('privacy-phone');
-			if (privacyPhone) {
-				privacyPhone.textContent = formatted;
+			if (footerPhone && privacyPhone) {
+				privacyPhone.textContent = footerPhone.textContent;
 			}
 		});
 	</script>

@@ -51,10 +51,14 @@ export default defineConfig({
             cssMinify: true,
             rollupOptions: {
                 output: {
-                    // Organize assets by type
+                    // Organize assets by type  
                     assetFileNames: (assetInfo) => {
-                        const name = assetInfo.name || 'unknown';
-                        const extType = name.split('.').pop() || '';
+                        // Extract extension from the source or fallback
+                        let extType = '';
+                        if (assetInfo.names && assetInfo.names.length > 0) {
+                            extType = assetInfo.names[0].split('.').pop() || '';
+                        }
+                        
                         if (/png|jpe?g|svg|gif|tiff|bmp|ico|webp/i.test(extType)) {
                             return `assets/images/[name]-[hash][extname]`;
                         }
