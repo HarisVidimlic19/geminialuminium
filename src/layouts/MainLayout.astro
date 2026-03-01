@@ -17,9 +17,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content={description} />
 		<meta name="keywords" content={keywords} />
-		<!-- Comprehensive Favicon Setup for Google Search Results -->
+		<!-- Comprehensive Favicon Setup for Search Results -->
 		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon.png" />
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+		<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
 		<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
 		<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -34,9 +36,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<!-- Web App Manifest -->
 		<link rel="manifest" href="/site.webmanifest" />
 		
-		<!-- Microsoft Windows/IE -->
+		<!-- Microsoft Windows/IE/Edge -->
 		<meta name="msapplication-TileColor" content="#2563eb" />
+		<meta name="msapplication-TileImage" content="/favicon-192x192.png" />
 		<meta name="msapplication-config" content="/browserconfig.xml" />
+		<meta name="theme-color" content="#2563eb" />
 		
 		<link rel="canonical" href={canonicalURL} />
 		<meta name="generator" content={Astro.generator} />
@@ -44,6 +48,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<!-- Enhanced SEO Meta Tags -->
 		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 		<meta name="googlebot" content="index, follow" />
+		<meta name="bingbot" content="index, follow" />
 		<meta name="author" content="Gemini Home Improvements" />
 		<meta name="language" content="English" />
 		<meta name="revisit-after" content="7 days" />
