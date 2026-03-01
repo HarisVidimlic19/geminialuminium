@@ -128,7 +128,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 			"@id": "https://geminialuminum.org",
 			"url": "https://geminialuminum.org",
 			"telephone": "",
-			"email": "geminihi@outlook.com",
+			"email": "",
 			"priceRange": "$$",
 			"paymentAccepted": ["Cash", "Check", "Invoice"],
 			"currenciesAccepted": "CAD",
@@ -438,12 +438,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 					footerPhone.textContent = formatted;
 				}
 				
-				// Update Schema.org JSON-LD with phone number (anti-scraping)
+				// Update Schema.org JSON-LD with phone and email (anti-scraping: populated via JS only)
 				const formattedPhone = '+1-' + phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
 				const schemaScript = document.querySelector('script[type="application/ld+json"]');
 				if (schemaScript) {
 					const schemaData = JSON.parse(schemaScript.textContent);
 					schemaData.telephone = formattedPhone;
+					schemaData.email = obfuscatedEmail;
 					schemaScript.textContent = JSON.stringify(schemaData);
 				}
 			});

@@ -22,6 +22,18 @@ import MainLayout from '../layouts/MainLayout.astro';
 					<p>Fill out the form and I'll get back to you within 24 hours with a free, no-obligation estimate.</p>
 					
 					<form id="contact-form" class="mt-3">
+						
+						<div class="form-group hp-field" aria-hidden="true" tabindex="-1">
+							<label for="website">Website</label>
+							<input type="text" id="website" name="website" autocomplete="off" tabindex="-1" />
+						</div>
+						<div class="form-group hp-field" aria-hidden="true" tabindex="-1">
+							<label for="company">Company</label>
+							<input type="text" id="company" name="company" autocomplete="off" tabindex="-1" />
+						</div>
+						
+						<input type="hidden" id="form-load-time" name="form_loaded" value="" />
+
 						<div class="form-group">
 							<label for="name">Full Name *</label>
 							<input type="text" id="name" name="name" required />
@@ -99,6 +111,12 @@ import MainLayout from '../layouts/MainLayout.astro';
 	// Contact info is handled by MainLayout (footer email/phone deobfuscation)
 	// This script only handles contact page-specific elements
 	document.addEventListener('DOMContentLoaded', () => {
+		// Record form load timestamp for bot timing detection
+		const loadTimeField = document.getElementById('form-load-time') as HTMLInputElement;
+		if (loadTimeField) {
+			loadTimeField.value = Date.now().toString();
+		}
+
 		// Get email from MainLayout's deobfuscation
 		const footerEmail = document.getElementById('footer-email');
 		const emailLink = document.getElementById('email-link');
@@ -173,7 +191,35 @@ import MainLayout from '../layouts/MainLayout.astro';
 		
 		form?.addEventListener('submit', async (e) => {
 			e.preventDefault();
-			
+
+			// === BOT DETECTION ===
+			// 1. Honeypot check: if hidden fields are filled, it's a bot
+			const honeypotWebsite = (document.getElementById('website') as HTMLInputElement)?.value;
+			const honeypotCompany = (document.getElementById('company') as HTMLInputElement)?.value;
+			if (honeypotWebsite || honeypotCompany) {
+				// Silently reject - show fake success so bot doesn't retry
+				const fakeConfirm = document.createElement('div');
+				fakeConfirm.className = 'form-confirmation';
+				fakeConfirm.innerHTML = '<h3>\u2713 Thank you!</h3><p>We\'ll be in touch soon.</p>';
+				form.style.display = 'none';
+				form.parentElement?.insertBefore(fakeConfirm, form);
+				return;
+			}
+
+			// 2. Timing check: real humans take at least 3 seconds to fill a form
+			const loadTime = parseInt((document.getElementById('form-load-time') as HTMLInputElement)?.value || '0');
+			const submitTime = Date.now();
+			if (loadTime && (submitTime - loadTime) < 3000) {
+				// Submitted too fast - likely a bot
+				const fakeConfirm = document.createElement('div');
+				fakeConfirm.className = 'form-confirmation';
+				fakeConfirm.innerHTML = '<h3>\u2713 Thank you!</h3><p>We\'ll be in touch soon.</p>';
+				form.style.display = 'none';
+				form.parentElement?.insertBefore(fakeConfirm, form);
+				return;
+			}
+
+			// === NORMAL VALIDATION ===
 			// Final phone validation before submission
 			const phoneInput = document.getElementById('phone') as HTMLInputElement;
 			const phoneError = document.getElementById('phone-error');
@@ -265,6 +311,18 @@ import MainLayout from '../layouts/MainLayout.astro';
 		}
 	}
 	
+	/* Honeypot fields - invisible to humans, traps bots */
+	.hp-field {
+		position: absolute;
+		left: -9999px;
+		top: -9999px;
+		width: 0;
+		height: 0;
+		overflow: hidden;
+		opacity: 0;
+		pointer-events: none;
+	}
+
 	.text-muted {
 		color: #718096;
 	}

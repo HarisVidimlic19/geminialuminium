@@ -1,5 +1,9 @@
-# Redirect www to non-www
+# Redirect www to non-www (works on Netlify/Cloudflare Pages)
 https://www.geminialuminum.org/* https://geminialuminum.org/:splat 301!
+
+# Redirect old/crawled paths that don't exist
+/service-areas /services/ 301
+/service-areas/ /services/ 301
 
 # Ensure trailing slashes
 /* /index.html 200

@@ -4,10 +4,12 @@ Allow: /
 # Sitemap
 Sitemap: https://geminialuminum.org/sitemap-index.xml
 
-# Block common bot paths that aren't needed
+# Block paths that should not be indexed
 Disallow: /api/
 Disallow: /_astro/
 Disallow: /assets/
+Disallow: /~partytown/
+Disallow: /service-areas/
 
 # Allow all images to be crawled
 User-agent: Googlebot-Image
@@ -16,3 +18,46 @@ Allow: /images/
 # Crawl delay for aggressive bots
 User-agent: *
 Crawl-delay: 1
+
+# Block AI crawlers and scrapers from harvesting contact info and content
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /contact/
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /

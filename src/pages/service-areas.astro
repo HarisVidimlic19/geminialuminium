@@ -1,0 +1,6 @@
+---
+// Redirect /service-areas/ to /services/ 
+// This page exists because Google discovered /service-areas/ and indexed it as a 404.
+// A proper 301 redirect tells search engines the canonical location.
+return Astro.redirect('/services/', 301);
+---
