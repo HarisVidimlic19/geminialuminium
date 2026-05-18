@@ -29,7 +29,7 @@ import FAQ from '../components/FAQ.astro';
 				We provide professional services for both private and commercial clients, 
 				specializing in eavestrough and siding installations.
 			</p>
-			<div class="grid grid-3">
+			<div class="grid grid-3 services-grid">
 				<div class="card">
 					<h3>Eavestrough & Downspouts</h3>
 					<p>Protect your home from water damage with quality eavestrough and downspout installations and repairs.</p>
@@ -98,6 +98,16 @@ import FAQ from '../components/FAQ.astro';
 		font-size: 1.2rem;
 		margin: 1rem 0;
 		color: #f8f9fa;
+	}
+
+	.services-grid .card {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.services-grid .card .btn {
+		margin-top: auto;
+		align-self: center;
 	}
 
 	.hero-cta {
