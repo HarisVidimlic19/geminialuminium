@@ -18,6 +18,32 @@ const {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const siteOrigin = Astro.site ? new URL(Astro.site).origin : canonicalURL.origin;
 const fullTitle = title.includes('Gemini') ? title : `${title} | Gemini Home Improvements`;
+const schemaJson = JSON.stringify({
+	"@context": "https://schema.org",
+	"@type": ["HomeAndConstructionBusiness", "LocalBusiness"],
+	"name": "Gemini Home Improvements",
+	"alternateName": ["Gemini Aluminum", "Gemini Home Improvements Brantford"],
+	"description": "Professional eavestrough installation, siding, gutter repairs, and exterior renovation services in Brantford, Toronto, and throughout the GTA. Over 15 years of experience.",
+	"image": `${siteOrigin}/logo.svg`,
+	"@id": siteOrigin,
+	"url": siteOrigin,
+	"telephone": PHONE_E164,
+	"email": EMAIL,
+	"priceRange": "$$",
+	"address": {
+		"@type": "PostalAddress",
+		"addressLocality": "Brantford",
+		"addressRegion": "ON",
+		"addressCountry": "CA"
+	},
+	"geo": {
+		"@type": "GeoCoordinates",
+		"latitude": 43.1394,
+		"longitude": -80.2644
+	},
+	"areaServed": ["Brantford", "Toronto", "Mississauga", "Brampton", "Hamilton", "Burlington", "Oakville", "Cambridge"],
+	"sameAs": []
+});
 ---
 
 <!doctype html>
