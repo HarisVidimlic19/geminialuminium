@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"c:\\\\Users\\\\HP\\\\Desktop\\\\NewGHI\\\\src\")",
+      "Bash(dir \"c:\\\\Users\\\\HP\\\\Desktop\\\\NewGHI\\\\src\" /b)"
+    ]
+  }
+}

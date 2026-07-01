@@ -228,6 +228,10 @@ section h2 {
 	margin-bottom: 1rem;
 }
 
+.card p {
+	margin-bottom: 20px;
+}
+
 /* Footer */
 .footer {
 	background-color: var(--dark);

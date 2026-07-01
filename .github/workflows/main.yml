@@ -18,8 +18,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repository using git
-        uses: actions/checkout@v4
-        
+        uses: actions/checkout@v6
+
+      - name: Create contact config from secrets
+        run: |
+          mkdir -p src/config
+          cat > src/config/contact.ts << 'TSEOF'
+          export const PHONE_DIGITS = "${{ secrets.PHONE_DIGITS }}";
+          export const PHONE_DISPLAY = "${{ secrets.PHONE_DISPLAY }}";
+          export const PHONE_E164 = "${{ secrets.PHONE_E164 }}";
+          export const EMAIL = "${{ secrets.EMAIL }}";
+          TSEOF
+
       - name: Install, build, and upload your site
         uses: withastro/action@v3
         with:
