@@ -67,6 +67,22 @@ The `.github/workflows/deploy.yml` file is configured to automatically build and
 3. Set Source to "GitHub Actions"
 4. Push to `main` branch - deployment happens automatically!
 
+### Canonical Domain Consistency (implemented)
+
+This project is configured to use `https://geminialuminum.org` as the canonical domain:
+
+- `astro.config.mjs` uses `site: 'https://geminialuminum.org'`
+- `public/CNAME` is set to `geminialuminum.org`
+- Canonical tags are generated from `Astro.site` in `MainLayout.astro`
+- A client-side fallback redirects `www.geminialuminum.org` to non-www
+
+For full server-level consistency on GitHub Pages, set DNS like this:
+
+- Apex/root (`@`) A/ALIAS records to GitHub Pages
+- `www` CNAME to `<your-github-username>.github.io`
+
+GitHub Pages will then enforce the custom domain consistently.
+
 ### Manual Deployment
 
 ```bash

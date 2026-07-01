@@ -3,11 +3,19 @@ interface Props {
 	title: string;
 	description?: string;
 	keywords?: string;
+	noindex?: boolean;
 }
 
-const { title, description = "Professional eavestrough installation, siding, and gutter protection services in Brantford, Toronto, and GTA. Licensed contractor with 15+ years experience. Free estimates.", keywords = "eavestrough installation Brantford, siding contractor Toronto, gutter repair GTA, home improvements Ontario, exterior renovation, leaf guard installation" } = Astro.props;
+const {
+	title,
+	description = "Professional eavestrough installation, siding, and gutter protection services in Brantford, Toronto, and GTA. Licensed contractor with 15+ years experience. Free estimates.",
+	keywords = "eavestrough installation Brantford, siding contractor Toronto, gutter repair GTA, home improvements Ontario, exterior renovation, leaf guard installation",
+	noindex = false
+} = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const siteOrigin = Astro.site ? new URL(Astro.site).origin : canonicalURL.origin;
+const fullTitle = title.includes('Gemini') ? title : `${title} | Gemini Home Improvements`;
 ---
 
 <!doctype html>
@@ -46,9 +54,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<meta name="generator" content={Astro.generator} />
 		
 		<!-- Enhanced SEO Meta Tags -->
-		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-		<meta name="googlebot" content="index, follow" />
-		<meta name="bingbot" content="index, follow" />
+		<meta name="robots" content={noindex ? "noindex, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"} />
+		<meta name="googlebot" content={noindex ? "noindex, follow" : "index, follow"} />
+		<meta name="bingbot" content={noindex ? "noindex, follow" : "index, follow"} />
 		<meta name="author" content="Gemini Home Improvements" />
 		<meta name="language" content="English" />
 		<meta name="revisit-after" content="7 days" />
@@ -64,7 +72,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<meta property="og:url" content={canonicalURL} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		<meta property="og:image" content="https://geminialuminum.org/favicon-512x512.png" />
+		<meta property="og:image" content={`${siteOrigin}/favicon-512x512.png`} />
 		<meta property="og:image:width" content="512" />
 		<meta property="og:image:height" content="512" />
 		<meta property="og:image:alt" content="Gemini Home Improvements Logo" />
@@ -74,15 +82,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<meta property="twitter:url" content={canonicalURL} />
 		<meta property="twitter:title" content={title} />
 		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content="https://geminialuminum.org/favicon-512x512.png" />
+		<meta property="twitter:image" content={`${siteOrigin}/favicon-512x512.png`} />
 		
-		<title>{title} | Gemini Home Improvements</title>
-
-		<!-- Geo Targeting -->
-		<meta name="geo.region" content="CA-ON" />
-		<meta name="geo.placename" content="Toronto" />
-		<meta name="geo.position" content="43.6532;-79.3832" />
-		<meta name="ICBM" content="43.6532, -79.3832" />
+		<title>{fullTitle}</title>
 
 		<!-- Preload critical assets for faster LCP -->
 		<link rel="preload" href="/logo.svg" as="image" type="image/svg+xml" />
