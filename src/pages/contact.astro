@@ -1,16 +1,18 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import { EMAIL, PHONE_DISPLAY, PHONE_E164 } from '../config/contact';
 ---
 
 <MainLayout 
-	title="Contact & Free Quote"
-	description="Contact Gemini Home Improvements to request a free quote for eavestrough, siding, and exterior services."
+	title="Free Exterior Renovation Quote"
+	description="Request a free eavestrough, siding, gutter protection, or exterior repair quote from Gemini Home Improvements in Brantford and the GTA."
 	keywords="free eavestrough quote toronto, leaf guard estimate, siding quote gta, contact exterior renovation"
+	schemaType="ContactPage"
 >
 	<section class="hero" style="padding: 3rem 0;">
 		<div class="container">
-			<h1>Contact Us</h1>
-			<p>Get your free quote today</p>
+			<h1>Request a Free Exterior Renovation Quote</h1>
+			<p>Speak directly with the owner about eavestrough, siding, capping, or gutter protection work.</p>
 		</div>
 	</section>
 
@@ -19,9 +21,9 @@ import MainLayout from '../layouts/MainLayout.astro';
 			<div class="grid grid-2">
 				<div>
 					<h2>Get Your Free Quote</h2>
-					<p>Fill out the form and I'll get back to you within 24 hours with a free, no-obligation estimate.</p>
+					<p>Tell me what your home needs, where the property is located, and any timing concerns. I’ll review your request personally and follow up within one business day to discuss the next step.</p>
 					
-					<form id="contact-form" class="mt-3">
+					<form id="contact-form" class="mt-3" data-recipient={EMAIL}>
 						
 						<div class="form-group hp-field" aria-hidden="true" tabindex="-1">
 							<label for="website">Website</label>
@@ -36,12 +38,12 @@ import MainLayout from '../layouts/MainLayout.astro';
 
 						<div class="form-group">
 							<label for="name">Full Name *</label>
-							<input type="text" id="name" name="name" required />
+							<input type="text" id="name" name="name" autocomplete="name" required />
 						</div>
 
 						<div class="form-group">
 							<label for="email">Email Address *</label>
-							<input type="email" id="email" name="email" required />
+							<input type="email" id="email" name="email" autocomplete="email" required />
 						</div>
 
 						<div class="form-group">
@@ -50,10 +52,13 @@ import MainLayout from '../layouts/MainLayout.astro';
 								type="tel" 
 								id="phone" 
 								name="phone" 
-								placeholder="(555) 555-5555"
+								placeholder="(416) 555-0123"
 								maxlength="14"
+								autocomplete="tel"
+								inputmode="tel"
+								aria-describedby="phone-hint phone-error"
 							/>
-							<small class="form-hint">Format: (555) 555-5555 (10 digits)</small>
+							<small class="form-hint" id="phone-hint">Enter a 10-digit Canadian phone number.</small>
 							<small class="form-error" id="phone-error" style="display: none;">Please enter a valid 10-digit phone number</small>
 						</div>
 
@@ -74,21 +79,35 @@ import MainLayout from '../layouts/MainLayout.astro';
 							<textarea id="message" name="message" required placeholder="Please describe the work you need done..."></textarea>
 						</div>
 
-						<button type="submit" class="btn btn-primary">Submit Request</button>
+						<button type="submit" class="btn btn-primary">Prepare Email Request</button>
 					</form>
 				</div>
 
 				<div>
-					<h2>Contact Information</h2>
-					<div class="card">
-						<h3><span class="icon">&#xE715;</span> Email</h3>
-						<p><a href="#" id="email-link" class="contact-link">Loading...</a></p>
-					</div>
+					<h2>Contact Gemini Directly</h2>
+					<address class="contact-details">
+						<div class="card contact-card">
+							<h3><span class="icon">&#xE715;</span> Email</h3>
+							<p>
+								{EMAIL ? (
+									<a href={`mailto:${EMAIL}`} id="email-link" class="contact-link">{EMAIL}</a>
+								) : (
+									<span>Email is available on the live site.</span>
+								)}
+							</p>
+						</div>
 
-					<div class="card mt-2">
-						<h3><span class="icon">&#xE717;</span> Phone</h3>
-						<p><span id="phone-display" class="contact-display">Loading...</span></p>
-					</div>
+						<div class="card mt-2 contact-card">
+							<h3><span class="icon">&#xE717;</span> Phone</h3>
+							<p>
+								{PHONE_E164 && PHONE_DISPLAY ? (
+									<a href={`tel:${PHONE_E164}`} id="phone-display" class="contact-link">{PHONE_DISPLAY}</a>
+								) : (
+									<span>Phone is available on the live site.</span>
+								)}
+							</p>
+						</div>
+					</address>
 
 					<div class="card mt-2">
 						<h3><span class="icon">&#xE787;</span> Business Hours</h3>
@@ -99,8 +118,28 @@ import MainLayout from '../layouts/MainLayout.astro';
 
 					<div class="card mt-2">
 						<h3><span class="icon">&#xE707;</span> Service Area</h3>
-						<p>Greater Toronto Area and surrounding regions</p>
+						<p>Brantford, Toronto, Mississauga, Brampton, Hamilton, Burlington, Oakville, Cambridge, Vaughan, Markham, Richmond Hill, and nearby communities.</p>
 					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="quote-process">
+		<div class="container">
+			<h2>What Happens After You Contact Me</h2>
+			<div class="grid grid-3">
+				<div class="card">
+					<h3>1. Project Review</h3>
+					<p>I review the service, property location, and work description you provide so our first conversation is useful.</p>
+				</div>
+				<div class="card">
+					<h3>2. Direct Follow-Up</h3>
+					<p>You speak directly with the owner—not a call centre or sales team—to clarify the scope and arrange an assessment when needed.</p>
+				</div>
+				<div class="card">
+					<h3>3. Clear Estimate</h3>
+					<p>You receive a free, no-obligation estimate based on the work, materials, access, and condition of your home’s exterior.</p>
 				</div>
 			</div>
 		</div>
@@ -108,29 +147,11 @@ import MainLayout from '../layouts/MainLayout.astro';
 </MainLayout>
 
 <script>
-	// Contact info is handled by MainLayout (footer email/phone deobfuscation)
-	// This script only handles contact page-specific elements
 	document.addEventListener('DOMContentLoaded', () => {
 		// Record form load timestamp for bot timing detection
 		const loadTimeField = document.getElementById('form-load-time') as HTMLInputElement;
 		if (loadTimeField) {
 			loadTimeField.value = Date.now().toString();
-		}
-
-		// Get email from MainLayout's deobfuscation
-		const footerEmail = document.getElementById('footer-email');
-		const emailLink = document.getElementById('email-link');
-		if (footerEmail && emailLink) {
-			const email = footerEmail.textContent;
-			emailLink.setAttribute('href', 'mailto:' + email);
-			emailLink.textContent = email;
-		}
-
-		// Get phone from MainLayout's deobfuscation
-		const footerPhone = document.getElementById('footer-phone');
-		const phoneDisplay = document.getElementById('phone-display');
-		if (footerPhone && phoneDisplay) {
-			phoneDisplay.textContent = footerPhone.textContent;
 		}
 
 		// Phone number validation and auto-formatting (debounced)
@@ -250,9 +271,8 @@ import MainLayout from '../layouts/MainLayout.astro';
 				`Thank you!`
 			);
 			
-			// Get email from MainLayout for mailto
-			const footerEmail = document.getElementById('footer-email');
-			const email = footerEmail ? footerEmail.textContent || '' : '';
+			const email = (form as HTMLFormElement).dataset.recipient || '';
+			if (!email) return;
 			
 			// Open email client with email
 			window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
@@ -339,6 +359,18 @@ import MainLayout from '../layouts/MainLayout.astro';
 
 	.contact-link:hover {
 		text-decoration: underline;
+	}
+
+	.contact-details {
+		font-style: normal;
+	}
+
+	.contact-card {
+		overflow-wrap: anywhere;
+	}
+
+	.quote-process {
+		background-color: var(--light-bg);
 	}
 
 	/* Textarea font consistency fix */
